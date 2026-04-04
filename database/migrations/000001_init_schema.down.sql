@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS audit_logs;
+DROP TABLE IF EXISTS application_history;
+DROP TABLE IF EXISTS application_comments;
+DROP TABLE IF EXISTS applications;
+DROP TYPE IF EXISTS application_status;
+DROP TYPE IF EXISTS application_type;
+DROP TABLE IF EXISTS footer_sections;
+DROP TABLE IF EXISTS menu_items;
+DROP TABLE IF EXISTS media;
+DROP TABLE IF EXISTS blocks;
+DROP TABLE IF EXISTS pages;
+DROP TABLE IF EXISTS services;
+DROP TABLE IF EXISTS service_categories;
+DROP TABLE IF EXISTS refresh_tokens;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS roles;

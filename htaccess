@@ -1,0 +1,69 @@
+ErrorDocument 403 /project4804216/page24192968.html
+ErrorDocument 404 /project4804216/page24192968.html
+
+DirectoryIndex page53708347.html
+
+RewriteEngine On
+
+RewriteCond %{HTTP:X-Forwarded-Proto} =http
+RewriteRule ^(.*)$ https://ac-auto56\.ru/$1 [R=301,L]
+
+RewriteCond %{HTTP:X-Forwarded-Proto} =https
+RewriteCond %{HTTP_HOST} ^www\.ac-auto56.ru [NC]
+RewriteRule ^(.*)$ https://ac-auto56\.ru/$1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} /robots.txt
+RewriteCond "%{DOCUMENT_ROOT}/project4804216/robots_%{HTTP_HOST}.txt" -f
+RewriteRule ^(.*)$ robots_%{HTTP_HOST}.txt [NC,L]
+RewriteRule ^header$ page42462157.html [NC]
+RewriteRule ^header/$ page42462157.html [NC]
+
+RewriteRule ^footer$ page42883422.html [NC]
+RewriteRule ^footer/$ page42883422.html [NC]
+
+RewriteRule ^error$ page24192968.html [NC]
+RewriteRule ^error/$ page24192968.html [NC]
+
+RewriteRule ^katalog$ page23649512.html [NC]
+RewriteRule ^katalog/$ page23649512.html [NC]
+
+RewriteRule ^vikup$ page23422695.html [NC]
+RewriteRule ^vikup/$ page23422695.html [NC]
+
+RewriteRule ^tradein$ page23633115.html [NC]
+RewriteRule ^tradein/$ page23633115.html [NC]
+
+RewriteRule ^commission$ page23422604.html [NC]
+RewriteRule ^commission/$ page23422604.html [NC]
+
+RewriteRule ^autocredit$ page23630841.html [NC]
+RewriteRule ^autocredit/$ page23630841.html [NC]
+
+RewriteRule ^insurance$ page23632109.html [NC]
+RewriteRule ^insurance/$ page23632109.html [NC]
+
+RewriteRule ^rostosh_autoservice$ page42911260.html [NC]
+RewriteRule ^rostosh_autoservice/$ page42911260.html [NC]
+
+RewriteRule ^rostosh_mkc$ page42911545.html [NC]
+RewriteRule ^rostosh_mkc/$ page42911545.html [NC]
+
+RewriteRule ^privacy$ page42710673.html [NC]
+RewriteRule ^privacy/$ page42710673.html [NC]
+
+RewriteRule ^about$ page42978319.html [NC]
+RewriteRule ^about/$ page42978319.html [NC]
+
+RewriteRule ^vacancy$ page38953631.html [NC]
+RewriteRule ^vacancy/$ page38953631.html [NC]
+
+RewriteRule ^rostosh_carwash$ page42911399.html [NC]
+RewriteRule ^rostosh_carwash/$ page42911399.html [NC]
+
+RewriteRule ^autocredi$ page53744701.html [NC]
+RewriteRule ^autocredi/$ page53744701.html [NC]
+
+RewriteRule ^rostosh_autoservic$ page53744715.html [NC]
+RewriteRule ^rostosh_autoservic/$ page53744715.html [NC]
+
+

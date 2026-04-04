@@ -1,0 +1,1003 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "AC Auto API",
+    "version": "1.0",
+    "description": "REST API платформы AC Auto. Staff и админка требуют JWT в заголовке Authorization.",
+    "contact": { "name": "API" },
+    "license": { "name": "MIT", "url": "https://opensource.org/licenses/MIT" }
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["health"],
+        "summary": "Проверка процесса",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/HealthBody" }
+          }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": ["health"],
+        "summary": "Проверка процесса (v1)",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/HealthBody" }
+          }
+        }
+      }
+    },
+    "/api/v1/service-categories": {
+      "get": {
+        "tags": ["public-catalog"],
+        "summary": "Список категорий услуг",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } }
+          },
+          "500": {
+            "description": "Ошибка",
+            "schema": { "$ref": "#/definitions/ErrorBody" }
+          }
+        }
+      }
+    },
+    "/api/v1/services": {
+      "get": {
+        "tags": ["public-catalog"],
+        "summary": "Список услуг",
+        "parameters": [
+          { "name": "category_id", "in": "query", "type": "integer", "format": "int64" },
+          { "name": "limit", "in": "query", "type": "integer", "format": "int32" },
+          { "name": "offset", "in": "query", "type": "integer", "format": "int32" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } }
+          },
+          "400": { "description": "Неверные query", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/services/{id}": {
+      "get": {
+        "tags": ["public-catalog"],
+        "summary": "Услуга по id",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "400": { "description": "Неверный id", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/pages/{slug}": {
+      "get": {
+        "tags": ["public-catalog"],
+        "summary": "Опубликованная страница",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "400": { "description": "Нет slug", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/menu-items": {
+      "get": {
+        "tags": ["public-layout"],
+        "summary": "Меню (публично)",
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/footer-sections": {
+      "get": {
+        "tags": ["public-layout"],
+        "summary": "Футер (публично)",
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Вход",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/LoginRequest" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/TokenPair" } },
+          "400": { "description": "Неверное тело", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Неверные учётные данные", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Обновить access token",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RefreshRequest" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/TokenPair" } },
+          "400": { "description": "Неверное тело", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Невалидный refresh", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Logout (опционально отозвать refresh)",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": { "$ref": "#/definitions/RefreshRequest" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "No Content" }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": ["auth"],
+        "summary": "Текущий пользователь (JWT)",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/MeResponse" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/applications": {
+      "post": {
+        "tags": ["public-applications"],
+        "summary": "Создать заявку",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/CreateApplicationRequest" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Создано", "schema": { "$ref": "#/definitions/IDResponse" } },
+          "400": { "description": "Ошибка запроса", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "422": { "description": "Валидация / капча", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/staff/ping": {
+      "get": {
+        "tags": ["staff"],
+        "summary": "Проверка staff JWT",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/StaffPing" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/staff/applications": {
+      "get": {
+        "tags": ["staff"],
+        "summary": "Список заявок",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "status", "in": "query", "type": "string" },
+          { "name": "type", "in": "query", "type": "string" },
+          { "name": "assigned_manager_id", "in": "query", "type": "integer", "format": "int64" },
+          { "name": "limit", "in": "query", "type": "integer", "format": "int32" },
+          { "name": "offset", "in": "query", "type": "integer", "format": "int32" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "400": { "description": "Неверные query", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/staff/applications/{id}": {
+      "get": {
+        "tags": ["staff"],
+        "summary": "Заявка с комментариями и историей",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "400": { "description": "Неверный id", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "patch": {
+        "tags": ["staff"],
+        "summary": "Обновить заявку",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PatchApplicationStaff" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/staff/applications/{id}/comments": {
+      "post": {
+        "tags": ["staff"],
+        "summary": "Комментарий к заявке",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/CommentBody" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Создано", "schema": { "$ref": "#/definitions/IDResponse" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нет прав", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/staff/users": {
+      "get": {
+        "tags": ["staff"],
+        "summary": "Список сотрудников (для назначения менеджера)",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/ping": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "Проверка admin JWT",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/AdminPing" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/service-categories": {
+      "get": {
+        "tags": ["admin-cms"],
+        "summary": "Список категорий (админ)",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "post": {
+        "tags": ["admin-cms"],
+        "summary": "Создать категорию",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "201": { "description": "Создано", "schema": { "$ref": "#/definitions/IDResponse" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "500": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/service-categories/{id}": {
+      "get": {
+        "tags": ["admin-cms"],
+        "summary": "Категория по id",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "patch": {
+        "tags": ["admin-cms"],
+        "summary": "Обновить категорию",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "delete": {
+        "tags": ["admin-cms"],
+        "summary": "Удалить категорию",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/services": {
+      "get": {
+        "tags": ["admin-cms"],
+        "summary": "Список услуг (админ)",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "post": {
+        "tags": ["admin-cms"],
+        "summary": "Создать услугу",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "201": { "description": "Создано", "schema": { "$ref": "#/definitions/IDResponse" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/services/{id}": {
+      "get": {
+        "tags": ["admin-cms"],
+        "summary": "Услуга по id (админ)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "patch": {
+        "tags": ["admin-cms"],
+        "summary": "Обновить услугу",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "delete": {
+        "tags": ["admin-cms"],
+        "summary": "Удалить услугу",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/pages": {
+      "get": {
+        "tags": ["admin-cms"],
+        "summary": "Список страниц",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "post": {
+        "tags": ["admin-cms"],
+        "summary": "Создать страницу",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "201": { "description": "Создано", "schema": { "$ref": "#/definitions/IDResponse" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/pages/{id}": {
+      "get": {
+        "tags": ["admin-cms"],
+        "summary": "Страница по id",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "patch": {
+        "tags": ["admin-cms"],
+        "summary": "Обновить страницу",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "delete": {
+        "tags": ["admin-cms"],
+        "summary": "Удалить страницу",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/pages/{pageId}/blocks/reorder": {
+      "post": {
+        "tags": ["admin-cms"],
+        "summary": "Порядок блоков",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "pageId", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/ReorderIDs" } }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/pages/{pageId}/blocks": {
+      "get": {
+        "tags": ["admin-cms"],
+        "summary": "Блоки страницы",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "pageId", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "post": {
+        "tags": ["admin-cms"],
+        "summary": "Создать блок",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "pageId", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "201": { "description": "Создано", "schema": { "$ref": "#/definitions/IDResponse" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/pages/{pageId}/blocks/{blockId}": {
+      "patch": {
+        "tags": ["admin-cms"],
+        "summary": "Обновить блок",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "pageId", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "blockId", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "delete": {
+        "tags": ["admin-cms"],
+        "summary": "Удалить блок",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "pageId", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "blockId", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/roles": {
+      "get": {
+        "tags": ["admin-users"],
+        "summary": "Роли",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/users": {
+      "get": {
+        "tags": ["admin-users"],
+        "summary": "Пользователи",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "post": {
+        "tags": ["admin-users"],
+        "summary": "Создать пользователя",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/CreateUserRequest" } }
+        ],
+        "responses": {
+          "201": { "description": "Создано", "schema": { "$ref": "#/definitions/IDResponse" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "409": { "description": "Email занят", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/users/{id}": {
+      "get": {
+        "tags": ["admin-users"],
+        "summary": "Пользователь по id",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "patch": {
+        "tags": ["admin-users"],
+        "summary": "Обновить пользователя",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/PatchUserRequest" } }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "409": { "description": "Конфликт email", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/users/{id}/reset-password": {
+      "post": {
+        "tags": ["admin-users"],
+        "summary": "Сброс пароля",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/ResetPasswordRequest" } }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/menu-items/reorder": {
+      "post": {
+        "tags": ["admin-layout"],
+        "summary": "Порядок пунктов меню",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/ReorderIDs" } }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/menu-items": {
+      "get": {
+        "tags": ["admin-layout"],
+        "summary": "Пункты меню (админ)",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "post": {
+        "tags": ["admin-layout"],
+        "summary": "Создать пункт меню",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "201": { "description": "Создано", "schema": { "$ref": "#/definitions/IDResponse" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/menu-items/{id}": {
+      "get": {
+        "tags": ["admin-layout"],
+        "summary": "Пункт меню по id",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "patch": {
+        "tags": ["admin-layout"],
+        "summary": "Обновить пункт меню",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "delete": {
+        "tags": ["admin-layout"],
+        "summary": "Удалить пункт меню",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/footer-sections/reorder": {
+      "post": {
+        "tags": ["admin-layout"],
+        "summary": "Порядок секций футера",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/ReorderIDs" } }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/footer-sections": {
+      "get": {
+        "tags": ["admin-layout"],
+        "summary": "Секции футера (админ)",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Any" } } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "post": {
+        "tags": ["admin-layout"],
+        "summary": "Создать секцию футера",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "201": { "description": "Создано", "schema": { "$ref": "#/definitions/IDResponse" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    },
+    "/api/v1/admin/footer-sections/{id}": {
+      "get": {
+        "tags": ["admin-layout"],
+        "summary": "Секция футера по id",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "404": { "description": "Не найдено", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "patch": {
+        "tags": ["admin-layout"],
+        "summary": "Обновить секцию футера",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" },
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/Any" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Any" } },
+          "400": { "description": "Ошибка", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      },
+      "delete": {
+        "tags": ["admin-layout"],
+        "summary": "Удалить секцию футера",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer", "format": "int64" }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "401": { "description": "Нет токена", "schema": { "$ref": "#/definitions/ErrorBody" } },
+          "403": { "description": "Нужна роль admin", "schema": { "$ref": "#/definitions/ErrorBody" } }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Any": {
+      "type": "object",
+      "description": "Структура см. фактический JSON ответа API"
+    },
+    "ErrorBody": {
+      "type": "object",
+      "properties": { "error": { "type": "string" } }
+    },
+    "HealthBody": {
+      "type": "object",
+      "properties": { "status": { "type": "string", "example": "ok" } }
+    },
+    "TokenPair": {
+      "type": "object",
+      "properties": {
+        "access_token": { "type": "string" },
+        "refresh_token": { "type": "string" },
+        "token_type": { "type": "string" },
+        "expires_in": { "type": "integer", "format": "int32" }
+      }
+    },
+    "LoginRequest": {
+      "type": "object",
+      "required": ["email", "password"],
+      "properties": {
+        "email": { "type": "string" },
+        "password": { "type": "string" }
+      }
+    },
+    "RefreshRequest": {
+      "type": "object",
+      "properties": { "refresh_token": { "type": "string" } }
+    },
+    "MeResponse": {
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "integer", "format": "int64" },
+        "role": { "type": "string" }
+      }
+    },
+    "CreateApplicationRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "car_brand": { "type": "string" },
+        "vin": { "type": "string" },
+        "service_id": { "type": "integer", "format": "int64" },
+        "message": { "type": "string" },
+        "turnstile_token": { "type": "string" }
+      }
+    },
+    "IDResponse": {
+      "type": "object",
+      "properties": { "id": { "type": "integer", "format": "int64" } }
+    },
+    "StaffPing": {
+      "type": "object",
+      "properties": { "staff": { "type": "boolean" } }
+    },
+    "AdminPing": {
+      "type": "object",
+      "properties": { "admin": { "type": "boolean" } }
+    },
+    "ReorderIDs": {
+      "type": "object",
+      "required": ["ids"],
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": { "type": "integer", "format": "int64" }
+        }
+      }
+    },
+    "PatchApplicationStaff": {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string" },
+        "assigned_manager_id": { "type": "integer", "format": "int64" },
+        "clear_assigned": { "type": "boolean" }
+      }
+    },
+    "CommentBody": {
+      "type": "object",
+      "required": ["body"],
+      "properties": { "body": { "type": "string" } }
+    },
+    "CreateUserRequest": {
+      "type": "object",
+      "required": ["email", "password", "role"],
+      "properties": {
+        "email": { "type": "string" },
+        "password": { "type": "string" },
+        "role": { "type": "string", "enum": ["moderator", "admin"] }
+      }
+    },
+    "PatchUserRequest": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string" },
+        "is_active": { "type": "boolean" }
+      }
+    },
+    "ResetPasswordRequest": {
+      "type": "object",
+      "required": ["password"],
+      "properties": { "password": { "type": "string" } }
+    }
+  },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Формат: Bearer {access_token}"
+    }
+  }
+}
