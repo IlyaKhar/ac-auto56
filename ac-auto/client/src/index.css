@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply antialiased;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-montserrat text-neutral-900 bg-white;
+  }
+}
+
+@layer components {
+  .ac-input {
+    @apply rounded border border-neutral-300 bg-white px-3 py-2 text-neutral-900 outline-none transition focus:border-ac-red focus:ring-1 focus:ring-ac-red;
+  }
+  .ac-btn-primary {
+    @apply rounded bg-ac-red text-white shadow-sm transition hover:bg-red-700;
+  }
+
+  /* HTML из админки в светлом футере */
+  .ac-footer-html-light a {
+    @apply block py-0.5 text-neutral-600 transition hover:text-ac-orange;
+  }
+  .ac-footer-html-light p {
+    @apply mb-2 last:mb-0;
+  }
+}

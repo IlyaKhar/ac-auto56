@@ -1,0 +1,6 @@
+{
+  "gopls": {
+    "build.directoryFilters": ["-client", "-files"],
+    "build.expandWorkspaceToModule": true
+  }
+}

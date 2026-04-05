@@ -1,0 +1,115 @@
+# Явное имя: из кириллического пути папки Compose иногда не может вывести project name → "must not be empty"
+name: acauto
+
+# Подстановка ${VAR:-дефолт} читает корневой .env (если есть) + переменные окружения.
+# Без .env всё поднимается с дефолтами; для своих секретов скопируй .env.example → .env
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: acauto
+      POSTGRES_PASSWORD: acauto
+      POSTGRES_DB: acauto
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U acauto -d acauto"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: postgres://acauto:acauto@postgres:5432/acauto?sslmode=disable
+      HTTP_PORT: "8080"
+      MIGRATIONS_PATH: /migrations
+      JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-min-16chars!!}
+      JWT_ACCESS_MINUTES: ${JWT_ACCESS_MINUTES:-15}
+      JWT_REFRESH_DAYS: ${JWT_REFRESH_DAYS:-7}
+      CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-http://localhost:5173}
+      TURNSTILE_SKIP: ${TURNSTILE_SKIP:-true}
+      TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
+      # Кавычки обязательны: иначе YAML воспринимает chat_id, начинающийся с "-", как синтаксис
+      TELEGRAM_BOT_TOKEN: "${TELEGRAM_BOT_TOKEN:-}"
+      TELEGRAM_CHAT_ID: "${TELEGRAM_CHAT_ID:-}"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 20s
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Один раз после готовности API: миграции уже применены, создаём admin (и moderator из .env при желании).
+  bootstrap:
+    build:
+      context: .
+      dockerfile: server/Dockerfile.seed
+    environment:
+      DATABASE_URL: postgres://acauto:acauto@postgres:5432/acauto?sslmode=disable
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@local.test}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-dev-AdminPass-change-me}
+      MODERATOR_EMAIL: ${MODERATOR_EMAIL:-}
+      MODERATOR_PASSWORD: ${MODERATOR_PASSWORD:-}
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: "no"
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      # Доп. Host для Vite 6 (имя сервиса в сети compose и т.п.)
+      __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS: client,host.docker.internal
+      # Для Docker подставь сюда же из корневого .env (см. .env.example), иначе дефолты:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:8080}
+      VITE_TURNSTILE_SITE_KEY: ${VITE_TURNSTILE_SITE_KEY:-}
+      VITE_LEAD_MODAL_DELAY_MS: ${VITE_LEAD_MODAL_DELAY_MS:-10000}
+      VITE_LEAD_MODAL_DISABLED: ${VITE_LEAD_MODAL_DISABLED:-false}
+      VITE_LEAD_MODAL_IMAGE_URL: ${VITE_LEAD_MODAL_IMAGE_URL:-}
+      VITE_PUBLIC_PHONE_TEL: ${VITE_PUBLIC_PHONE_TEL:-tel:+79619429992}
+      VITE_PUBLIC_PHONE_LABEL: ${VITE_PUBLIC_PHONE_LABEL:-По любым вопросам}
+      VITE_FLOAT_TELEGRAM: ${VITE_FLOAT_TELEGRAM:-https://t.me/ACTAuto56}
+      VITE_FLOAT_WHATSAPP: ${VITE_FLOAT_WHATSAPP:-https://wa.me/79228521329}
+      VITE_FLOAT_TEL: ${VITE_FLOAT_TEL:-tel:+79619429992}
+      VITE_LAYOUT_FROM_API: ${VITE_LAYOUT_FROM_API:-true}
+    depends_on:
+      api:
+        condition: service_healthy
+      bootstrap:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  # Ручной повторный seed (идемпотентный): docker compose --profile seed run --rm seed
+  seed:
+    build:
+      context: .
+      dockerfile: server/Dockerfile.seed
+    environment:
+      DATABASE_URL: postgres://acauto:acauto@postgres:5432/acauto?sslmode=disable
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@local.test}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-dev-AdminPass-change-me}
+      MODERATOR_EMAIL: ${MODERATOR_EMAIL:-}
+      MODERATOR_PASSWORD: ${MODERATOR_PASSWORD:-}
+    depends_on:
+      api:
+        condition: service_healthy
+    profiles:
+      - seed
+
+volumes:
+  pgdata:
