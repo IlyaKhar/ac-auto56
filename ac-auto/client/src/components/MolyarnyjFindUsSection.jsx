@@ -3,16 +3,16 @@
  */
 
 const MAP_WIDGET_SRC =
-  "https://yandex.ru/map-widget/v1/?from=api-maps&ll=55.1842%2C51.7691&z=17&pt=55.1842%2C51.7691%2Cpm2rdm";
+  "https://yandex.ru/map-widget/v1/?from=api-maps&ll=55.126516%2C51.825531&z=16.6&pt=55.126516%2C51.825531%2Cpm2rdm";
 
 const ADDRESS_LINE = "г. Оренбург, ул. Космическая 2А";
 const PHONE_DISPLAY = "+7 (3532) 22-22-58";
 
 const YANDEX_OPEN_URL =
-  "https://yandex.ru/maps/?text=%D0%9E%D1%80%D0%B5%D0%BD%D0%B1%D1%83%D1%80%D0%B3%20%D1%83%D0%BB%20%D0%9A%D0%BE%D1%81%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F%202%D0%B0";
+  "https://yandex.ru/maps/48/orenburg/house/kosmicheskaya_ulitsa_2a/YUwYdwVmSkEPQFtrfXRzdHhibQ==/?ll=55.126516%2C51.825531&z=16.6";
 
 const GIS_OPEN_URL =
-  "https://2gis.ru/orenburg/search/%D0%9A%D0%BE%D1%81%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F%202%D0%B0";
+  "https://2gis.ru/orenburg/search/%D0%9A%D0%BE%D1%81%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F%202%D0%B0?m=55.126614%2C51.825304%2F18.75";
 
 function phoneTelHref(display) {
   const d = display.replace(/\D/g, "");

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { createApplication } from "../api/publicApi.js";
+import { createApplication, fetchVehicles } from "../api/publicApi.js";
 import { TurnstileField } from "./TurnstileField.jsx";
 import { RuFlagIcon } from "./icons/RuFlagIcon.jsx";
 import { LEAD_MODAL_OPEN_EVENT } from "../utils/leadModalEvents.js";
@@ -16,7 +16,7 @@ const delayMs = Number(import.meta.env.VITE_LEAD_MODAL_DELAY_MS) || 10_000;
 const modalDisabled = import.meta.env.VITE_LEAD_MODAL_DISABLED === "true";
 
 /** URL шапки модалки: по умолчанию статика из public/. */
-const headerSrc =
+const defaultHeaderSrc =
   (import.meta.env.VITE_LEAD_MODAL_IMAGE_URL || "").trim() || `${import.meta.env.BASE_URL}lead-modal-header.png`;
 
 /**
@@ -29,7 +29,8 @@ export function LeadCaptureModal() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [imgBroken, setImgBroken] = useState(false);
+  const [headerFallbackSrc, setHeaderFallbackSrc] = useState("");
+  const [headerTryIdx, setHeaderTryIdx] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [captchaMountKey, setCaptchaMountKey] = useState(0);
   const [sending, setSending] = useState(false);
@@ -38,6 +39,8 @@ export function LeadCaptureModal() {
   /** Контекст с кнопки «заявка на услугу» — id попадёт в message для менеджеров. */
   const [leadContext, setLeadContext] = useState(null);
   const nameInputRef = useRef(null);
+  const headerCandidates = [defaultHeaderSrc, headerFallbackSrc].filter(Boolean);
+  const headerSrc = headerCandidates[headerTryIdx] || "";
 
   const onTok = useCallback((t) => setTurnstileToken(t || ""), []);
   const needCaptcha = Boolean(turnstileSiteKey);
@@ -51,6 +54,25 @@ export function LeadCaptureModal() {
     } catch {
       /* ignore */
     }
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchVehicles()
+      .then((rows) => {
+        if (cancelled) return;
+        const firstPhoto = (Array.isArray(rows) ? rows : [])
+          .flatMap((v) => (Array.isArray(v.images) ? v.images : []))
+          .map((u) => String(u || "").trim())
+          .find(Boolean);
+        setHeaderFallbackSrc(firstPhoto || "");
+      })
+      .catch(() => {
+        if (!cancelled) setHeaderFallbackSrc("");
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   /** Ручное открытие (шапка услуги и т.д.) — не зависит от «уже закрывал модалку». */
@@ -90,6 +112,10 @@ export function LeadCaptureModal() {
       window.clearTimeout(focusT);
     };
   }, [open, dismiss]);
+
+  useEffect(() => {
+    if (open) setHeaderTryIdx(0);
+  }, [open]);
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -165,16 +191,16 @@ export function LeadCaptureModal() {
         </button>
 
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-200">
-          {!imgBroken ? (
+          {headerSrc ? (
             <img
               src={headerSrc}
               alt=""
               className="h-full w-full object-cover object-center"
-              onError={() => setImgBroken(true)}
+              onError={() => setHeaderTryIdx((i) => i + 1)}
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-neutral-300 text-sm text-neutral-500">
-              Добавьте lead-modal-header.png в client/public
+              Изображение временно недоступно
             </div>
           )}
         </div>

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { createApplication } from "../api/publicApi.js";
+import { createApplication, fetchVehicles } from "../api/publicApi.js";
 import { TurnstileField } from "./TurnstileField.jsx";
 import { RuFlagIcon } from "./icons/RuFlagIcon.jsx";
 
@@ -8,7 +8,7 @@ const base = import.meta.env.BASE_URL || "/";
 
 const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? "";
 
-const headerSrc =
+const defaultHeaderSrc =
   (import.meta.env.VITE_TRADE_MODAL_IMAGE || "").trim() || `${base}trade-modal-header.png`;
 
 /**
@@ -22,13 +22,16 @@ export function TradeInConsultModal({ open, onClose }) {
   const [phone, setPhone] = useState("");
   const [cityMode, setCityMode] = useState("other");
   const [otherCity, setOtherCity] = useState("");
-  const [imgBroken, setImgBroken] = useState(false);
+  const [headerFallbackSrc, setHeaderFallbackSrc] = useState("");
+  const [headerTryIdx, setHeaderTryIdx] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [captchaMountKey, setCaptchaMountKey] = useState(0);
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
   const [err, setErr] = useState("");
   const nameInputRef = useRef(null);
+  const headerCandidates = [defaultHeaderSrc, headerFallbackSrc].filter(Boolean);
+  const headerSrc = headerCandidates[headerTryIdx] || "";
 
   const onTok = useCallback((t) => setTurnstileToken(t || ""), []);
   const needCaptcha = Boolean(turnstileSiteKey);
@@ -47,6 +50,25 @@ export function TradeInConsultModal({ open, onClose }) {
   }, [onClose]);
 
   useEffect(() => {
+    let cancelled = false;
+    fetchVehicles()
+      .then((rows) => {
+        if (cancelled) return;
+        const firstPhoto = (Array.isArray(rows) ? rows : [])
+          .flatMap((v) => (Array.isArray(v.images) ? v.images : []))
+          .map((u) => String(u || "").trim())
+          .find(Boolean);
+        setHeaderFallbackSrc(firstPhoto || "");
+      })
+      .catch(() => {
+        if (!cancelled) setHeaderFallbackSrc("");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === "Escape" && dismiss();
     document.addEventListener("keydown", onKey);
@@ -58,6 +80,10 @@ export function TradeInConsultModal({ open, onClose }) {
       window.clearTimeout(t);
     };
   }, [open, dismiss]);
+
+  useEffect(() => {
+    if (open) setHeaderTryIdx(0);
+  }, [open]);
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -122,16 +148,16 @@ export function TradeInConsultModal({ open, onClose }) {
         </button>
 
         <div className="relative aspect-[16/11] w-full overflow-hidden bg-neutral-200">
-          {!imgBroken ? (
+          {headerSrc ? (
             <img
               src={headerSrc}
               alt=""
               className="h-full w-full object-cover object-center"
-              onError={() => setImgBroken(true)}
+              onError={() => setHeaderTryIdx((i) => i + 1)}
             />
           ) : (
             <div className="flex h-full items-center justify-center px-4 text-center text-xs text-neutral-500">
-              Добавьте <code className="mx-1 rounded bg-white px-1">public/trade-modal-header.png</code>
+              Изображение временно недоступно
             </div>
           )}
         </div>

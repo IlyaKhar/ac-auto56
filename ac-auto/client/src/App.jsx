@@ -32,6 +32,7 @@ import AdminFooter from "./admin/AdminFooter.jsx";
 import AdminVehicles from "./admin/AdminVehicles.jsx";
 import AdminSalonLocations from "./admin/AdminSalonLocations.jsx";
 import AdminAboutGallery from "./admin/AdminAboutGallery.jsx";
+import AdminHomeMedia from "./admin/AdminHomeMedia.jsx";
 import { RequireStaff } from "./staff/RequireStaff.jsx";
 import StaffLayout from "./staff/StaffLayout.jsx";
 import StaffLoginPage from "./staff/StaffLoginPage.jsx";
@@ -73,6 +74,7 @@ export default function App() {
         <Route path="vehicles" element={<AdminVehicles />} />
         <Route path="salon-locations" element={<AdminSalonLocations />} />
         <Route path="about-gallery" element={<AdminAboutGallery />} />
+        <Route path="home-media" element={<AdminHomeMedia />} />
         <Route path="pages" element={<AdminPagesList />} />
         <Route path="pages/:pageId" element={<AdminPageEditor />} />
         <Route path="users" element={<AdminUsers />} />

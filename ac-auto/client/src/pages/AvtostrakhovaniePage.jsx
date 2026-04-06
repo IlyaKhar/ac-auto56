@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchSalonLocations } from "../api/publicApi.js";
+import { fetchHomeMedia, fetchSalonLocations } from "../api/publicApi.js";
 import { AvtostrakhovanieBenefitsSection } from "../components/AvtostrakhovanieBenefitsSection.jsx";
 import { CallbackLeadFormSection } from "../components/CallbackLeadFormSection.jsx";
 import { InsuranceServiceRequestModal } from "../components/InsuranceServiceRequestModal.jsx";
@@ -9,7 +9,7 @@ import { PartnerInsuranceSection } from "../components/PartnerBanksSection.jsx";
 import { SalonLocationsSection } from "../components/SalonLocationsSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
-const heroBg = `${base}services/avtostrakhovanie.jpg`;
+const heroBg = `${base}services/tild3439-3761-4664-b431-643636613161___1.jpg`;
 
 function mainTelHref() {
   const raw = (import.meta.env.VITE_FLOAT_TEL || "tel:+79619429992").trim();
@@ -23,6 +23,7 @@ function mainTelHref() {
 export default function AvtostrakhovaniePage() {
   const tel = mainTelHref();
   const [salonLocationsData, setSalonLocationsData] = useState(null);
+  const [homeMedia, setHomeMedia] = useState(null);
   const [insuranceModal, setInsuranceModal] = useState(null);
 
   useEffect(() => {
@@ -33,6 +34,13 @@ export default function AvtostrakhovaniePage() {
       })
       .catch(() => {
         if (!cancelled) setSalonLocationsData(null);
+      });
+    fetchHomeMedia()
+      .then((res) => {
+        if (!cancelled) setHomeMedia(res ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setHomeMedia(null);
       });
     return () => {
       cancelled = true;
@@ -85,7 +93,10 @@ export default function AvtostrakhovaniePage() {
       </div>
 
       <PartnerInsuranceSection />
-      <InsuranceServicesGridSection onRequest={setInsuranceModal} />
+      <InsuranceServicesGridSection
+        onRequest={setInsuranceModal}
+        adminImages={Array.isArray(homeMedia?.insurance_services) ? homeMedia.insurance_services : []}
+      />
       <InsuranceServiceRequestModal context={insuranceModal} onClose={() => setInsuranceModal(null)} />
       <AvtostrakhovanieBenefitsSection />
       <CallbackLeadFormSection

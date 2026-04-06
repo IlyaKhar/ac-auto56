@@ -1,11 +1,11 @@
 const MAP_WIDGET_SRC =
-  "https://yandex.ru/map-widget/v1/?from=api-maps&ll=55.2684%2C51.8042&z=17&pt=55.2684%2C51.8042%2Cpm2rdm";
+  "https://yandex.ru/map-widget/v1/?from=api-maps&ll=55.228989%2C51.787585&z=17&pt=55.228989%2C51.787585%2Cpm2rdm";
 
 const ADDRESS_LINE = "п. Ростоши, ул. Дальнореченская, 22";
 const PHONE_DISPLAY = "+7 (3532) 58-69-00";
 
 const YANDEX_OPEN_URL =
-  "https://yandex.ru/maps/?text=%D0%BF.%20%D0%A0%D0%BE%D1%81%D1%82%D0%BE%D1%88%D0%B8%20%D1%83%D0%BB.%20%D0%94%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%80%D0%B5%D1%87%D0%B5%D0%BD%D1%81%D0%BA%D0%B0%D1%8F%2022";
+  "https://yandex.ru/maps/48/orenburg/house/dalnorechenskaya_ulitsa_22/YUwYdAVoQEwHQFtrfXt5dnlrYQ==/?ll=55.228989%2C51.787585&z=17";
 
 const GIS_OPEN_URL =
   "https://2gis.ru/orenburg/search/%D0%94%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%80%D0%B5%D1%87%D0%B5%D0%BD%D1%81%D0%BA%D0%B0%D1%8F%2022%20%D1%80%D0%BE%D1%81%D1%82%D0%BE%D1%88%D0%B8";

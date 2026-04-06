@@ -1,12 +1,14 @@
 import { ActAutoSingleAddressSection } from "../components/ActAutoSingleAddressSection.jsx";
+import { useState } from "react";
 import { CarTradeLeadFormSection } from "../components/CarTradeLeadFormSection.jsx";
 import { KomissionnayaAdvantagesSection } from "../components/KomissionnayaAdvantagesSection.jsx";
 import { KomissionnayaStagesSection } from "../components/KomissionnayaStagesSection.jsx";
 import { OurServicesSection } from "../components/OurServicesSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
-/** Фон героя: public/services/komissionnaya-prodazha.jpg */
-const heroBg = `${base}services/komissionnaya-prodazha.jpg`;
+/** Фон героя: сначала tilda-файл, если нет — штатный fallback. */
+const heroPreferred = `${base}services/tild3832-6136-4064-b836-313033303833___1.jpg`;
+const heroFallback = `${base}services/komissionnaya-prodazha.jpg`;
 
 /** tel: как у плавающего виджета — один источник в env. */
 function mainTelHref() {
@@ -22,6 +24,7 @@ function mainTelHref() {
  */
 export default function KomissionnayaProdazhaPage() {
   const tel = mainTelHref();
+  const [heroSrc, setHeroSrc] = useState(heroPreferred);
 
   return (
     <>
@@ -30,10 +33,17 @@ export default function KomissionnayaProdazhaPage() {
           className="relative flex min-h-[calc(100svh-8rem)] w-full flex-col items-center justify-center px-4 py-16 md:min-h-[calc(100svh-6rem)] md:py-20"
           aria-labelledby="komissiya-hero-title"
         >
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${heroBg})` }}
-          />
+          {heroSrc ? (
+            <img
+              src={heroSrc}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+              onError={() => {
+                if (heroSrc !== heroFallback) setHeroSrc(heroFallback);
+                else setHeroSrc("");
+              }}
+            />
+          ) : null}
           <div className="absolute inset-0 bg-black/60" aria-hidden />
 
           <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center">

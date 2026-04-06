@@ -66,10 +66,10 @@ function AboutIntro() {
 function RedIconCircle({ children }) {
   return (
     <div
-      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#e31e24] md:h-14 md:w-14"
+      className="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#e02020] via-[#c41230] to-[#5c0d0d] shadow-md md:h-[5rem] md:w-[5rem]"
       aria-hidden
     >
-      <span className="text-white [&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-7 md:[&_svg]:w-7">{children}</span>
+      <span className="text-white [&_svg]:h-8 [&_svg]:w-8 md:[&_svg]:h-9 md:[&_svg]:w-9">{children}</span>
     </div>
   );
 }
@@ -136,32 +136,35 @@ const WHY_ITEMS = [
 
 function AboutWhy() {
   return (
-    <section className="bg-[#121212] py-16 text-white md:py-24" aria-labelledby="about-why-title">
-      <div className="mx-auto max-w-3xl px-4 md:px-6">
+    <section
+      className="bg-[radial-gradient(circle_at_left,#102d33_0%,#10161b_40%,#0d1015_100%)] py-14 text-white md:py-20"
+      aria-labelledby="about-why-title"
+    >
+      <div className="mx-auto max-w-[37rem] px-4 md:px-6">
         <h2
           id="about-why-title"
-          className="text-center text-base font-bold uppercase leading-snug tracking-[0.08em] md:text-lg"
+          className="text-left text-base font-bold uppercase leading-snug tracking-[0.08em] md:text-lg"
         >
           Почему клиенты выбирают «ACT AUTO»
         </h2>
-        <ul className="mt-12 list-none space-y-10">
+        <ul className="mt-10 list-none space-y-8 md:space-y-9">
           {WHY_ITEMS.map((it) => (
-            <li key={it.key} className="flex gap-4 md:gap-5">
+            <li key={it.key} className="flex items-start gap-4 md:gap-5">
               <RedIconCircle>{it.icon}</RedIconCircle>
-              <div className="min-w-0 pt-0.5">
-                <h3 className="text-base font-bold leading-snug md:text-lg">{it.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/90 md:text-[0.9375rem]">{it.text}</p>
+              <div className="min-w-0 pt-2">
+                <h3 className="text-sm font-bold leading-snug md:text-[1.02rem]">{it.title}</h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-white/90 md:text-[0.86rem]">{it.text}</p>
               </div>
             </li>
           ))}
         </ul>
-        <div className="mt-14 flex justify-center">
+        <div className="mt-10 flex justify-center">
           <button
             type="button"
             onClick={() =>
               openLeadCaptureModal({ contextLabel: "Хочу присоединиться к команде ACT AUTO" })
             }
-            className="rounded-md bg-[#e31e24] px-8 py-4 text-center text-xs font-bold uppercase tracking-wide text-white shadow-lg transition hover:brightness-110 md:text-sm"
+            className="rounded-md bg-[#e31e24] px-7 py-3 text-center text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-lg transition hover:brightness-110 md:px-8 md:py-3.5 md:text-xs"
           >
             Хочу присоединиться к команде!
           </button>

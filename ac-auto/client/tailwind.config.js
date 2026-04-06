@@ -5,11 +5,11 @@ export default {
     extend: {
       colors: {
         "ac-red": "#c41230",
-        "ac-orange": "#E29E31",
-        "ac-bright-orange": "#f58200",
-        "ac-hero-accent": "#FF8000",
+        "ac-orange": "#c41230",
+        "ac-bright-orange": "#e02020",
+        "ac-hero-accent": "#c41230",
         "ac-topbar": "#252525",
-        "ac-vykup-cta": "#FF3B30",
+        "ac-vykup-cta": "#c41230",
         "ac-vykup-lime": "#E2F26B",
       },
       fontFamily: {

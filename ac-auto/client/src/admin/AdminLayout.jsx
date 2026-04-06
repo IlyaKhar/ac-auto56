@@ -9,6 +9,7 @@ const links = [
   { to: "/admin/vehicles", label: "Автомобили" },
   { to: "/admin/salon-locations", label: "Адреса салона" },
   { to: "/admin/about-gallery", label: "О компании — слайдер" },
+  { to: "/admin/home-media", label: "Главная — фото блоков" },
   { to: "/admin/pages", label: "Страницы" },
   { to: "/admin/users", label: "Пользователи" },
   { to: "/admin/menu", label: "Меню" },

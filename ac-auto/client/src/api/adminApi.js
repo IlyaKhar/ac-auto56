@@ -25,6 +25,11 @@ export const adminAboutGallery = {
   put: (body) => api.put(`${a}/about-gallery`, body),
 };
 
+export const adminHomeMedia = {
+  get: () => api.get(`${a}/home-media`).then((r) => r.data),
+  put: (body) => api.put(`${a}/home-media`, body),
+};
+
 export const adminSalonLocations = {
   getBundle: () => api.get(`${a}/salon-locations`).then((r) => r.data),
   patchSettings: (body) => api.patch(`${a}/salon-locations/settings`, body),

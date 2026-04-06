@@ -5,8 +5,8 @@ import { MolyarnyjPaintBodyServicesSection } from "../components/MolyarnyjPaintB
 import { OurServicesSection } from "../components/OurServicesSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
-/** Фон: public/services/molyarnyj-ceh.jpg (или .png) — как в карточке услуги */
-const heroBg = `${base}services/molyarnyj-ceh.jpg`;
+/** Фон героя из tilda-импорта. */
+const heroBg = `${base}services/tild6665-6332-4439-b935-323839386535___1.jpg`;
 
 function mainTelHref() {
   const raw = (import.meta.env.VITE_FLOAT_TEL || "tel:+79619429992").trim();

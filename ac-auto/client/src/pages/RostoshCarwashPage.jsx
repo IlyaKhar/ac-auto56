@@ -5,7 +5,7 @@ import { RostoshCarwashLeadFormSection } from "../components/RostoshCarwashLeadF
 import { RostoshCarwashServicesSection } from "../components/RostoshCarwashServicesSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
-const heroBg = `${base}services/avtomoyka.jpg`;
+const heroBg = `${base}services/tild6363-3561-4133-b638-633266383635___.jpg`;
 
 function mainTelHref() {
   const raw = (import.meta.env.VITE_FLOAT_TEL || "tel:+79619429992").trim();

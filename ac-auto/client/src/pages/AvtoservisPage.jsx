@@ -4,8 +4,8 @@ import { RostoshFindUsSection } from "../components/RostoshFindUsSection.jsx";
 import { RostoshServicesSection } from "../components/RostoshServicesSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
-/** Фон: public/services/avtoservis.jpg */
-const heroBg = `${base}services/avtoservis.jpg`;
+/** Фон героя из tilda-импорта. */
+const heroBg = `${base}services/tild3436-3937-4234-a534-643534656235___1.jpg`;
 
 function mainTelHref() {
   const raw = (import.meta.env.VITE_FLOAT_TEL || "tel:+79619429992").trim();

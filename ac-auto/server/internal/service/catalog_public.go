@@ -17,6 +17,7 @@ type PublicCatalog struct {
 	vehicles   *repository.VehicleRepository
 	salonAddr   *repository.SalonAddressRepository
 	aboutGallery *repository.AboutGalleryRepository
+	homeMedia    *repository.HomeMediaRepository
 }
 
 func NewPublicCatalog(
@@ -29,6 +30,7 @@ func NewPublicCatalog(
 	vehicles *repository.VehicleRepository,
 	salonAddr *repository.SalonAddressRepository,
 	aboutGallery *repository.AboutGalleryRepository,
+	homeMedia *repository.HomeMediaRepository,
 ) *PublicCatalog {
 	return &PublicCatalog{
 		categories:   categories,
@@ -40,6 +42,7 @@ func NewPublicCatalog(
 		vehicles:     vehicles,
 		salonAddr:    salonAddr,
 		aboutGallery: aboutGallery,
+		homeMedia:    homeMedia,
 	}
 }
 
@@ -125,4 +128,29 @@ func (s *PublicCatalog) GetAboutGallery(ctx context.Context) (*AboutGalleryView,
 		return nil, err
 	}
 	return &AboutGalleryView{ImageURLs: list}, nil
+}
+
+func (s *PublicCatalog) GetHomeMedia(ctx context.Context) (*HomeMediaView, error) {
+	our, err := s.homeMedia.ListSection(ctx, repository.HomeSectionOurServices)
+	if err != nil {
+		return nil, err
+	}
+	inspection, err := s.homeMedia.ListSection(ctx, repository.HomeSectionCarInspection)
+	if err != nil {
+		return nil, err
+	}
+	owners, err := s.homeMedia.ListSection(ctx, repository.HomeSectionHappyOwners)
+	if err != nil {
+		return nil, err
+	}
+	insurance, err := s.homeMedia.ListSection(ctx, repository.HomeSectionInsuranceServices)
+	if err != nil {
+		return nil, err
+	}
+	return &HomeMediaView{
+		OurServices:   our,
+		CarInspection: inspection,
+		HappyOwners:   owners,
+		InsuranceServices: insurance,
+	}, nil
 }

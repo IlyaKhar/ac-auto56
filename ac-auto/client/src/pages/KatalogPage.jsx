@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchSalonLocations, fetchVehicles } from "../api/publicApi.js";
+import { fetchHomeMedia, fetchSalonLocations, fetchVehicles } from "../api/publicApi.js";
 import { VehicleCatalogSection } from "../components/VehicleCatalogSection.jsx";
 import { CarDetailModal } from "../components/CarDetailModal.jsx";
 import { CarSelectionQuiz } from "../components/CarSelectionQuiz.jsx";
@@ -23,6 +23,7 @@ export default function KatalogPage() {
   const [favoriteIds, setFavoriteIds] = useState(() => new Set());
   /** Ответ API адресов; null — ошибка сети, в секции покажутся дефолты */
   const [salonLocationsData, setSalonLocationsData] = useState(null);
+  const [homeMedia, setHomeMedia] = useState(null);
 
   const loadVehicles = useCallback(() => {
     fetchVehicles()
@@ -42,6 +43,20 @@ export default function KatalogPage() {
       })
       .catch(() => {
         if (!cancelled) setSalonLocationsData(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchHomeMedia()
+      .then((res) => {
+        if (!cancelled) setHomeMedia(res ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setHomeMedia(null);
       });
     return () => {
       cancelled = true;
@@ -68,10 +83,10 @@ export default function KatalogPage() {
         onToggleFavorite={toggleFavorite}
         showGoToCatalogButton
       />
-      <OurServicesSection />
+      <OurServicesSection adminImages={homeMedia?.our_services ?? []} />
       <IdealCarGuaranteeSection />
-      <CarInspectionSection />
-      <HappyOwnersSection />
+      <CarInspectionSection adminImages={homeMedia?.car_inspection ?? []} />
+      <HappyOwnersSection adminImages={homeMedia?.happy_owners ?? []} />
       <PartnerBanksSection />
       <ReviewsSection />
       <SalonLocationsSection data={salonLocationsData} />

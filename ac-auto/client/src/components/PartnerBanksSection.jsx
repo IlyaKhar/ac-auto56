@@ -3,30 +3,42 @@ import { useCallback, useId, useState } from "react";
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
 
 /**
- * Собирает слайды логотипов: папка public/{folder}/01.jpg …
- * @param {string} folder — имя папки в public
- * @param {number} slideCount — число слайдов
- * @param {number} perSlide — логотипов на слайд
- * @param {string} altPrefix — префикс для alt
+ * Логотипы партнёров из выгрузки Tilda, переименованные в public/images/partners.
+ * Если добавим новые банки/СК — просто расширяем массивы.
  */
-function buildPartnerSlides(folder, slideCount, perSlide, altPrefix) {
-  const slides = [];
-  for (let s = 0; s < slideCount; s += 1) {
-    const items = [];
-    for (let i = 0; i < perSlide; i += 1) {
-      const n = s * perSlide + i + 1;
-      const file = `${String(n).padStart(2, "0")}.jpg`;
-      items.push({
-        key: `${folder}-${n}`,
-        src: `${base}${folder}/${file}`,
-        fileLabel: `${folder}/${file}`,
-        alt: `${altPrefix} ${n}`,
-      });
-    }
-    slides.push(items);
-  }
-  return slides;
-}
+const BANK_SLIDES = [
+  [
+    { key: "bank-vtb", src: `${base}images/partners/bank-vtb.svg`, alt: "Банк ВТБ" },
+    { key: "bank-tinkoff", src: `${base}images/partners/bank-tinkoff.svg`, alt: "Т-Банк" },
+    { key: "bank-yandex", src: `${base}images/partners/yandex-maps.svg`, alt: "Яндекс" },
+    { key: "bank-rosgosstrakh", src: `${base}images/partners/insurance-rosgosstrakh.svg`, alt: "Росгосстрах" },
+  ],
+  [
+    { key: "bank-tinkoff-2", src: `${base}images/partners/bank-tinkoff.svg`, alt: "Т-Банк" },
+    { key: "bank-vtb-2", src: `${base}images/partners/bank-vtb.svg`, alt: "Банк ВТБ" },
+    { key: "bank-yandex-2", src: `${base}images/partners/yandex-maps.svg`, alt: "Яндекс" },
+    { key: "bank-rosgosstrakh-2", src: `${base}images/partners/insurance-rosgosstrakh.svg`, alt: "Росгосстрах" },
+  ],
+];
+
+const INSURANCE_SLIDES = [
+  [
+    {
+      key: "insurance-rosgosstrakh",
+      src: `${base}images/partners/insurance-rosgosstrakh.svg`,
+      alt: "Росгосстрах",
+    },
+    { key: "insurance-tbank", src: `${base}images/partners/bank-tinkoff.svg`, alt: "Т-Страхование" },
+    { key: "insurance-vtb", src: `${base}images/partners/bank-vtb.svg`, alt: "ВТБ Страхование" },
+    { key: "insurance-yandex", src: `${base}images/partners/yandex-maps.svg`, alt: "Яндекс" },
+  ],
+  [
+    { key: "insurance-rosgosstrakh-2", src: `${base}images/partners/insurance-rosgosstrakh.svg`, alt: "Росгосстрах" },
+    { key: "insurance-tbank-2", src: `${base}images/partners/bank-tinkoff.svg`, alt: "Т-Страхование" },
+    { key: "insurance-vtb-2", src: `${base}images/partners/bank-vtb.svg`, alt: "ВТБ Страхование" },
+    { key: "insurance-yandex-2", src: `${base}images/partners/yandex-maps.svg`, alt: "Яндекс" },
+  ],
+];
 
 /**
  * Слайдер логотипов партнёров (банки, страховые — одна вёрстка).
@@ -113,9 +125,7 @@ function PartnersLogoSlider({ slides, title }) {
                         decoding="async"
                         onError={() => markBroken(item.key)}
                       />
-                    ) : (
-                      <span className="text-center text-[10px] text-neutral-400 md:text-xs">{item.fileLabel}</span>
-                    )}
+                    ) : <span className="text-center text-[10px] text-neutral-400 md:text-xs">{item.alt}</span>}
                   </div>
                 ))}
               </div>
@@ -142,9 +152,6 @@ function PartnersLogoSlider({ slides, title }) {
     </section>
   );
 }
-
-const BANK_SLIDES = buildPartnerSlides("partner-banks", 3, 4, "Логотип банка-партнёра");
-const INSURANCE_SLIDES = buildPartnerSlides("partner-insurance", 1, 4, "Логотип страхового партнёра");
 
 /**
  * Блок «Банки-партнёры»: как на главной / кредите.

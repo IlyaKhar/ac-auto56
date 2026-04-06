@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
-const ORANGE = "#E29E31";
+const ORANGE = "#c41230";
 
 /** URL из env или как на ac-auto56. */
 const tgUrl = (import.meta.env.VITE_FLOAT_TELEGRAM || "https://t.me/ACTAuto56").trim();

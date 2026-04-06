@@ -4,6 +4,15 @@ import { ErrBox, apiErr, btnGhost, btnPrimary, fieldClass } from "./shared.jsx";
 
 const emptyUser = { email: "", password: "", role: "moderator" };
 
+const ROLE_LABELS = {
+  admin: "Администратор",
+  moderator: "Модератор",
+};
+
+function roleLabel(roleName) {
+  return ROLE_LABELS[roleName] || roleName;
+}
+
 /** Список пользователей, создание, правка, сброс пароля. */
 export default function AdminUsers() {
   const [roles, setRoles] = useState([]);
@@ -121,7 +130,7 @@ export default function AdminUsers() {
           >
             {roles.map((r) => (
               <option key={r.id} value={r.name}>
-                {r.name}
+                {roleLabel(r.name)}
               </option>
             ))}
           </select>
@@ -141,7 +150,7 @@ export default function AdminUsers() {
                 <div>
                   <span className="text-white font-medium">{u.email}</span>
                   <span className="text-slate-500 text-sm ml-2">
-                    {u.role_name} · {u.is_active ? "активен" : "выкл"}
+                    {roleLabel(u.role_name)} · {u.is_active ? "активен" : "выкл"}
                   </span>
                 </div>
                 <button
@@ -173,7 +182,7 @@ export default function AdminUsers() {
                     >
                       {roles.map((r) => (
                         <option key={r.id} value={r.name}>
-                          {r.name}
+                          {roleLabel(r.name)}
                         </option>
                       ))}
                     </select>

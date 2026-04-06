@@ -7,6 +7,17 @@ const LIMIT = 30;
 
 const STATUSES = ["", "new", "in_progress", "completed", "rejected"];
 const TYPES = ["", "callback", "question", "service_request"];
+const STATUS_LABELS = {
+  new: "Новая",
+  in_progress: "В работе",
+  completed: "Завершена",
+  rejected: "Отклонена",
+};
+
+function statusLabel(status) {
+  if (!status) return "все";
+  return STATUS_LABELS[status] || status;
+}
 
 /** Список заявок с фильтрами и простой пагинацией. */
 export default function StaffApplicationsPage() {
@@ -58,7 +69,7 @@ export default function StaffApplicationsPage() {
           >
             {STATUSES.map((v) => (
               <option key={v || "all"} value={v}>
-                {v || "все"}
+                {statusLabel(v)}
               </option>
             ))}
           </select>
@@ -107,7 +118,7 @@ export default function StaffApplicationsPage() {
                     <td className="p-3 text-white">{a.name}</td>
                     <td className="p-3 text-slate-300">{a.phone}</td>
                     <td className="p-3">
-                      <span className="text-emerald-400/90">{a.status}</span>
+                      <span className="text-emerald-400/90">{statusLabel(a.status)}</span>
                     </td>
                     <td className="p-3 text-slate-500 whitespace-nowrap">
                       {a.created_at ? new Date(a.created_at).toLocaleString("ru-RU") : "—"}

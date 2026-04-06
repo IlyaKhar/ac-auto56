@@ -95,7 +95,7 @@ export function ActAutoSingleAddressSection() {
               href={d.gis_url || "#"}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-md border-2 border-ac-bright-orange bg-white px-4 py-3 text-center text-[0.65rem] font-bold uppercase leading-tight tracking-wide text-ac-bright-orange transition hover:bg-orange-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ac-bright-orange focus-visible:ring-offset-2 sm:text-xs md:min-h-0 md:px-5"
+              className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-md border-2 border-ac-bright-orange bg-white px-4 py-3 text-center text-[0.65rem] font-bold uppercase leading-tight tracking-wide text-ac-bright-orange transition hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ac-bright-orange focus-visible:ring-offset-2 sm:text-xs md:min-h-0 md:px-5"
             >
               Проложить маршрут в 2ГИС
             </a>

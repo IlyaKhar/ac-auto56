@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchVehicles } from "../api/publicApi.js";
 import { OUR_SERVICES_CARDS } from "../data/staticServices.js";
 
-function ServiceCard({ title, subtitle, href, image, fallbackClass }) {
-  const [imgOk, setImgOk] = useState(true);
+function ServiceCard({ title, subtitle, href, image, backupImage, fallbackClass }) {
+  const sources = [image, backupImage].filter(Boolean);
+  const [sourceIdx, setSourceIdx] = useState(0);
+
+  useEffect(() => {
+    setSourceIdx(0);
+  }, [image, backupImage]);
+
+  const activeSrc = sources[sourceIdx] || "";
+  const hasImage = sourceIdx < sources.length && Boolean(activeSrc);
 
   return (
     <Link
@@ -11,12 +20,12 @@ function ServiceCard({ title, subtitle, href, image, fallbackClass }) {
       className="group relative block aspect-[3/4] min-h-[200px] overflow-hidden rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)] focus:outline-none focus-visible:ring-2 focus-visible:ring-ac-bright-orange focus-visible:ring-offset-2"
     >
       {/* Фон: фото или градиент, если файла нет в public/services */}
-      {imgOk ? (
+      {hasImage ? (
         <img
-          src={image}
+          src={activeSrc}
           alt=""
           className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-          onError={() => setImgOk(false)}
+          onError={() => setSourceIdx((i) => i + 1)}
         />
       ) : (
         <div
@@ -53,9 +62,32 @@ function ServiceCard({ title, subtitle, href, image, fallbackClass }) {
 /**
  * Блок «НАШИ УСЛУГИ»; omitSlugs — скрыть карточки (напр. avtoservis на странице автосервиса).
  */
-export function OurServicesSection({ omitSlugs = [] }) {
+export function OurServicesSection({ omitSlugs = [], adminImages = [] }) {
   const skip = new Set(omitSlugs);
-  const cards = OUR_SERVICES_CARDS.filter((c) => !skip.has(c.slug));
+  const cards = OUR_SERVICES_CARDS.filter((c) => !skip.has(c.slug)).map((c, idx) => {
+    const custom = typeof adminImages[idx] === "string" ? adminImages[idx].trim() : "";
+    return { ...c, image: custom };
+  });
+  const [vehiclePhotos, setVehiclePhotos] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchVehicles()
+      .then((rows) => {
+        if (cancelled) return;
+        const photos = (Array.isArray(rows) ? rows : [])
+          .flatMap((v) => (Array.isArray(v.images) ? v.images : []))
+          .map((u) => String(u || "").trim())
+          .filter(Boolean);
+        setVehiclePhotos(photos);
+      })
+      .catch(() => {
+        if (!cancelled) setVehiclePhotos([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section className="bg-white py-12 md:py-16">
@@ -65,8 +97,12 @@ export function OurServicesSection({ omitSlugs = [] }) {
         </h2>
 
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {cards.map((card) => (
-            <ServiceCard key={card.slug} {...card} />
+          {cards.map((card, idx) => (
+            <ServiceCard
+              key={card.slug}
+              {...card}
+              backupImage={vehiclePhotos.length ? vehiclePhotos[idx % vehiclePhotos.length] : ""}
+            />
           ))}
         </div>
       </div>

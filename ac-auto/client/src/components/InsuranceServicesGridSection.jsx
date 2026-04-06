@@ -41,8 +41,17 @@ const CARDS = [
 
 /**
  * @param {(ctx: { modalTitle: string, messageProduct: string }) => void} props.onRequest
+ * @param {string[]} [props.adminImages]
  */
-export function InsuranceServicesGridSection({ onRequest }) {
+export function InsuranceServicesGridSection({ onRequest, adminImages = [] }) {
+  const cards = CARDS.map((card, index) => {
+    const adminImage = typeof adminImages[index] === "string" ? adminImages[index].trim() : "";
+    return {
+      ...card,
+      image: adminImage || card.image,
+    };
+  });
+
   return (
     <section
       className="bg-neutral-950 py-14 md:py-20"
@@ -57,7 +66,7 @@ export function InsuranceServicesGridSection({ onRequest }) {
         </h2>
 
         <ul className="mt-10 grid list-none grid-cols-1 gap-6 md:mt-14 md:grid-cols-2 md:gap-8">
-          {CARDS.map((c) => (
+          {cards.map((c) => (
             <li key={c.key}>
               <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-md md:min-h-[220px] md:flex-row">
                 <div className="relative h-48 w-full shrink-0 bg-neutral-200 md:h-auto md:w-[42%]">

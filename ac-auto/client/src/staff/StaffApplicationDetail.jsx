@@ -9,6 +9,16 @@ import {
 import { ErrBox, apiErr, btnGhost, btnPrimary, fieldClass } from "../admin/shared.jsx";
 
 const STATUSES = ["new", "in_progress", "completed", "rejected"];
+const STATUS_LABELS = {
+  new: "Новая",
+  in_progress: "В работе",
+  completed: "Завершена",
+  rejected: "Отклонена",
+};
+
+function statusLabel(status) {
+  return STATUS_LABELS[status] || status;
+}
 
 function payloadStr(p) {
   if (p == null) return "{}";
@@ -134,7 +144,7 @@ export default function StaffApplicationDetail() {
       </div>
       <h1 className="text-2xl font-semibold text-white mb-2">
         Заявка #{a.id}{" "}
-        <span className="text-slate-500 text-lg font-normal">· {a.status}</span>
+        <span className="text-slate-500 text-lg font-normal">· {statusLabel(a.status)}</span>
       </h1>
       {okMsg && (
         <p className="text-emerald-400 text-sm mb-2" role="status">
@@ -195,7 +205,7 @@ export default function StaffApplicationDetail() {
               <select className={fieldClass} value={status} onChange={(e) => setStatus(e.target.value)}>
                 {STATUSES.map((s) => (
                   <option key={s} value={s}>
-                    {s}
+                    {statusLabel(s)}
                   </option>
                 ))}
               </select>

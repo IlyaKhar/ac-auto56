@@ -7,7 +7,7 @@ import { PartnerBanksSection } from "../components/PartnerBanksSection.jsx";
 import { SalonLocationsSection } from "../components/SalonLocationsSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
-const heroBg = `${base}services/avtokreditovanie.jpg`;
+const heroBg = `${base}services/tild3832-6136-4064-b836-313033303833___1.jpg`;
 
 function mainTelHref() {
   const raw = (import.meta.env.VITE_FLOAT_TEL || "tel:+79619429992").trim();

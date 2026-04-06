@@ -31,7 +31,7 @@ function QuizBackButton({ onClick, label = "Назад" }) {
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded border-2 border-ac-bright-orange text-ac-bright-orange transition hover:bg-orange-50"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded border-2 border-ac-bright-orange text-ac-bright-orange transition hover:bg-red-50"
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 18l-6-6 6-6" />
@@ -57,7 +57,7 @@ function ChoiceButton({ children, selected, onClick }) {
       onClick={onClick}
       className={`w-full rounded-lg px-4 py-3.5 text-left text-sm font-medium transition md:text-base ${
         selected
-          ? "bg-orange-50 text-neutral-900 ring-2 ring-ac-bright-orange ring-inset"
+          ? "bg-red-50 text-neutral-900 ring-2 ring-ac-bright-orange ring-inset"
           : "bg-neutral-100 text-neutral-800 hover:bg-neutral-200/90"
       }`}
     >
@@ -219,7 +219,7 @@ export function CarSelectionQuiz() {
                         key={opt.id}
                         className={`flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3.5 text-sm font-medium md:text-base ${
                           yearChoices.includes(opt.id)
-                            ? "bg-orange-50 ring-2 ring-ac-bright-orange ring-inset"
+                            ? "bg-red-50 ring-2 ring-ac-bright-orange ring-inset"
                             : "bg-neutral-100 hover:bg-neutral-200/90"
                         }`}
                       >

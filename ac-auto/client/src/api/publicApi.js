@@ -28,6 +28,11 @@ export function fetchAboutGallery() {
   return api.get("/api/v1/about-gallery").then((r) => r.data);
 }
 
+/** Фото для блоков на главной: наши услуги / проверка / счастливые обладатели. */
+export function fetchHomeMedia() {
+  return api.get("/api/v1/home-media").then((r) => r.data);
+}
+
 export function fetchMenu() {
   return api.get("/api/v1/menu-items").then((r) => r.data);
 }

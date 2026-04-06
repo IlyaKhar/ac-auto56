@@ -105,7 +105,7 @@ export default function AdminCategories() {
           />
         </label>
         <label className="block text-xs text-slate-500">
-          Slug
+          Слаг
           <input
             className={fieldClass}
             value={form.slug}
@@ -151,7 +151,7 @@ export default function AdminCategories() {
               <tr>
                 <th className="p-3">ID</th>
                 <th className="p-3">Название</th>
-                <th className="p-3">Slug</th>
+                <th className="p-3">Слаг</th>
                 <th className="p-3">Порядок</th>
                 <th className="p-3">Активна</th>
                 <th className="p-3" />

@@ -7,8 +7,8 @@ import { VykupStepsSection } from "../components/VykupStepsSection.jsx";
 import { VykupLeadFormSection } from "../components/VykupLeadFormSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
-/** Положи файл в public/services/vykup-hero.png (как на макете). */
-const heroBg = `${base}services/vykup-hero.png`;
+/** Фон героя из tilda-импорта. */
+const heroBg = `${base}services/tild3163-3162-4737-a637-626431623861___1.jpg`;
 
 /** tel: как у плавающего виджета — один источник в env. */
 function mainTelHref() {

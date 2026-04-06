@@ -6,8 +6,8 @@ import { TradeInStepsSection } from "../components/TradeInStepsSection.jsx";
 import { TradeInLeadFormSection } from "../components/TradeInLeadFormSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
-/** Фон героя: public/services/trade-in.jpg (как у карточки услуги). */
-const heroBg = `${base}services/trade-in.jpg`;
+/** Фон героя из public/services. */
+const heroBg = `${base}services/tild6639-3539-4564-a330-323761613665__happy-customers-in-c.jpg`;
 
 function mainTelHref() {
   const raw = (import.meta.env.VITE_FLOAT_TEL || "tel:+79619429992").trim();

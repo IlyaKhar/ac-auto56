@@ -8,6 +8,11 @@ import {
 import { SalonLocationsBlockEditor, parseSalonLocationsAdminData } from "./SalonLocationsBlockEditor.jsx";
 import { ErrBox, apiErr, btnDanger, btnGhost, btnPrimary, fieldClass } from "./shared.jsx";
 
+const PAGE_STATUS_LABELS = {
+  draft: "Черновик",
+  published: "Опубликована",
+};
+
 /** Редактор страницы и блоков (JSON data для блоков). */
 export default function AdminPageEditor() {
   const { pageId } = useParams();
@@ -180,7 +185,7 @@ export default function AdminPageEditor() {
       >
         <h2 className="text-sm font-medium text-slate-300">Мета страницы</h2>
         <label className="block text-xs text-slate-500">
-          Slug
+          Слаг
           <input className={fieldClass} value={slug} onChange={(e) => setSlug(e.target.value)} required />
         </label>
         <label className="block text-xs text-slate-500">
@@ -190,20 +195,20 @@ export default function AdminPageEditor() {
         <label className="block text-xs text-slate-500">
           Статус
           <select className={fieldClass} value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="draft">draft</option>
-            <option value="published">published</option>
+            <option value="draft">{PAGE_STATUS_LABELS.draft}</option>
+            <option value="published">{PAGE_STATUS_LABELS.published}</option>
           </select>
         </label>
         <label className="block text-xs text-slate-500">
-          SEO title
+          SEO заголовок
           <input className={fieldClass} value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} />
         </label>
         <label className="block text-xs text-slate-500">
-          SEO description
+          SEO описание
           <input className={fieldClass} value={seoDesc} onChange={(e) => setSeoDesc(e.target.value)} />
         </label>
         <label className="block text-xs text-slate-500">
-          OG image URL
+          URL OG-изображения
           <input className={fieldClass} value={ogImage} onChange={(e) => setOgImage(e.target.value)} />
         </label>
         <button type="submit" className={btnPrimary}>
@@ -248,11 +253,11 @@ export default function AdminPageEditor() {
           </button>
         </div>
         <label className="block text-xs text-slate-500">
-          block_type
+          Тип блока (block_type)
           <input className={fieldClass} value={newType} onChange={(e) => setNewType(e.target.value)} required />
         </label>
         <label className="block text-xs text-slate-500">
-          data (JSON)
+          Данные (JSON)
           <textarea
             className={fieldClass}
             rows={4}
@@ -298,11 +303,11 @@ function BlockRow({ b, onSave, onDelete }) {
     <div className="rounded-xl border border-slate-800 bg-slate-900/30 p-4 space-y-2 max-w-3xl">
       <div className="text-xs text-slate-500">Блок id={b.id}</div>
       <label className="block text-xs text-slate-500">
-        block_type
+        Тип блока (block_type)
         <input className={fieldClass} value={type} onChange={onTypeInput} />
       </label>
       <label className="block text-xs text-slate-500">
-        sort_order
+        Порядок (sort_order)
         <input className={fieldClass} value={sort} onChange={(e) => setSort(e.target.value)} />
       </label>
 
@@ -310,7 +315,7 @@ function BlockRow({ b, onSave, onDelete }) {
         <SalonLocationsBlockEditor form={salonForm} setForm={setSalonForm} />
       ) : (
         <label className="block text-xs text-slate-500">
-          data (JSON)
+          Данные (JSON)
           <textarea
             className={fieldClass}
             rows={5}

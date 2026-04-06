@@ -13,9 +13,19 @@ export function KatalogHeroSection({ onLearnMore }) {
   const [imgBroken, setImgBroken] = useState(false);
 
   return (
-    <section className="bg-gradient-to-r from-slate-200/90 via-slate-50 to-white">
-      <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-10 md:gap-10 md:py-14 lg:grid-cols-2 lg:py-16">
-        <div className="order-2 lg:order-1">
+    <section className="relative overflow-hidden bg-slate-200">
+      {!imgBroken ? (
+        <img
+          src={heroImg}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-right"
+          onError={() => setImgBroken(true)}
+        />
+      ) : null}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#eceff3]/95 via-[#eceff3]/85 to-[#eceff3]/10" aria-hidden />
+
+      <div className="relative mx-auto min-h-[28rem] max-w-7xl px-4 py-10 md:py-14 lg:min-h-[32rem] lg:py-16">
+        <div className="max-w-2xl">
           <h1 className="text-2xl font-bold leading-tight text-neutral-800 md:text-3xl lg:text-4xl lg:leading-snug">
             Более{" "}
             <span className="text-ac-hero-accent">250 проверенных автомобилей</span> с гарантией юридической
@@ -55,22 +65,12 @@ export function KatalogHeroSection({ onLearnMore }) {
             Узнать подробнее
           </button>
         </div>
-
-        <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
-          {!imgBroken ? (
-            <img
-              src={heroImg}
-              alt=""
-              className="max-h-[min(420px,55vh)] w-auto max-w-full object-contain object-bottom"
-              onError={() => setImgBroken(true)}
-            />
-          ) : (
-            <div className="flex min-h-[280px] w-full max-w-md items-center justify-center rounded-lg bg-neutral-200/80 px-4 text-center text-sm text-neutral-500">
-              Добавьте фото в <code className="rounded bg-white px-1">public/katalog-hero-man.png</code>
-            </div>
-          )}
-        </div>
       </div>
+      {imgBroken ? (
+        <div className="pointer-events-none absolute right-4 top-4 rounded bg-white/85 px-3 py-2 text-xs text-neutral-500">
+          Добавьте <code className="rounded bg-white px-1">public/katalog-hero-man.png</code>
+        </div>
+      ) : null}
     </section>
   );
 }

@@ -112,6 +112,14 @@ func (h *CatalogHandler) GetAboutGallery(c *fiber.Ctx) error {
 	return c.JSON(v)
 }
 
+func (h *CatalogHandler) GetHomeMedia(c *fiber.Ctx) error {
+	v, err := h.svc.GetHomeMedia(c.Context())
+	if err != nil {
+		return JSONError(c, fiber.StatusInternalServerError, "не удалось загрузить фото блоков")
+	}
+	return c.JSON(v)
+}
+
 func (h *CatalogHandler) GetVehicle(c *fiber.Ctx) error {
 	id, err := parsePathInt64(c, "id")
 	if err != nil {

@@ -5,6 +5,15 @@ import { ErrBox, apiErr, btnDanger, btnPrimary, fieldClass } from "./shared.jsx"
 
 const empty = { slug: "", title: "", status: "draft", seo_title: "", seo_description: "", og_image_url: "" };
 
+const PAGE_STATUS_LABELS = {
+  draft: "Черновик",
+  published: "Опубликована",
+};
+
+function pageStatusLabel(status) {
+  return PAGE_STATUS_LABELS[status] || status;
+}
+
 /** Список страниц + создание; редактирование и блоки — /admin/pages/:id */
 export default function AdminPagesList() {
   const [list, setList] = useState([]);
@@ -69,7 +78,7 @@ export default function AdminPagesList() {
       >
         <h2 className="text-sm font-medium text-slate-300">Новая страница</h2>
         <label className="block text-xs text-slate-500">
-          Slug *
+          Слаг *
           <input
             className={fieldClass}
             value={form.slug}
@@ -93,12 +102,12 @@ export default function AdminPagesList() {
             value={form.status}
             onChange={(e) => setForm({ ...form, status: e.target.value })}
           >
-            <option value="draft">draft</option>
-            <option value="published">published</option>
+            <option value="draft">Черновик</option>
+            <option value="published">Опубликована</option>
           </select>
         </label>
         <label className="block text-xs text-slate-500">
-          SEO title
+          SEO заголовок
           <input
             className={fieldClass}
             value={form.seo_title}
@@ -106,7 +115,7 @@ export default function AdminPagesList() {
           />
         </label>
         <label className="block text-xs text-slate-500">
-          SEO description
+          SEO описание
           <input
             className={fieldClass}
             value={form.seo_description}
@@ -114,7 +123,7 @@ export default function AdminPagesList() {
           />
         </label>
         <label className="block text-xs text-slate-500">
-          OG image URL
+          URL OG-изображения
           <input
             className={fieldClass}
             value={form.og_image_url}
@@ -143,7 +152,7 @@ export default function AdminPagesList() {
                   {p.title}
                 </Link>
                 <span className="text-slate-500 text-sm ml-2">
-                  /{p.slug} · {p.status}
+                  /{p.slug} · {pageStatusLabel(p.status)}
                 </span>
               </div>
               <div className="flex gap-2">

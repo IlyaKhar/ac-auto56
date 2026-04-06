@@ -201,7 +201,7 @@ export function CallbackLeadFormSection({
             <button
               type="submit"
               disabled={sending || !captchaOk}
-              className="w-full rounded bg-[#FF4B2B] py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-md transition hover:brightness-110 disabled:opacity-50"
+              className="w-full rounded bg-ac-vykup-cta py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-md transition hover:brightness-110 disabled:opacity-50"
             >
               {sending ? "Отправка…" : "Отправить"}
             </button>

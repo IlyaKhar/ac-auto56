@@ -4,7 +4,7 @@ const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
 
 /** Фон: public/avtomobili-hero.jpg или VITE_AVTOBILI_HERO_IMAGE (URL/путь). */
 const bgSrc =
-  (import.meta.env.VITE_AVTOBILI_HERO_IMAGE || "").trim() || `${base}avtomobili-hero.jpg`;
+  (import.meta.env.VITE_AVTOBILI_HERO_IMAGE || "").trim() || `${base}services/tild6430-6163-4962-a163-363565663537_____2.jpg`;
 
 /** Нижняя красная полоса: VITE_AVTOBILI_HERO_ACCENT (hex), иначе ярко-красный как на макете */
 const accentColor = (import.meta.env.VITE_AVTOBILI_HERO_ACCENT || "").trim() || "#e30613";

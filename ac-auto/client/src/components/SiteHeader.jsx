@@ -7,7 +7,7 @@ import { buildMenuParts } from "../utils/buildMenuParts.js";
 const base = import.meta.env.BASE_URL || "/";
 
 /** Оранжевый акцент шапки (контуры иконок). */
-const AC_ORANGE = "#E29E31";
+const AC_ORANGE = "#c41230";
 
 const slogan1 = import.meta.env.VITE_HEADER_SLOGAN_1 ?? "СЕТЬ САЛОНОВ";
 const slogan2 = import.meta.env.VITE_HEADER_SLOGAN_2 ?? "АВТОМОБИЛЕЙ С ПРОБЕГОМ";
@@ -120,8 +120,6 @@ export function SiteHeader({ items }) {
   const { phone, navRoots, childrenMap } = useMemo(() => buildMenuParts(safeItems), [safeItems]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoImgBroken, setLogoImgBroken] = useState(false);
-  const [phoneIconBroken, setPhoneIconBroken] = useState(false);
-  const [homeIconBroken, setHomeIconBroken] = useState(false);
   const closeMobile = () => setMobileOpen(false);
 
   /** Меню из API или заглушка как на макете, пока админка пустая. */
@@ -168,7 +166,7 @@ export function SiteHeader({ items }) {
           >
             {!logoImgBroken ? (
               <img
-                src={`${base}logo-car-icon.svg`}
+                src={`${base}logocar.jpg`}
                 alt="ACT AUTO — сеть салонов автомобилей с пробегом"
                 className="h-10 w-auto max-w-full object-contain object-left sm:h-11 md:h-12"
                 width={320}
@@ -205,19 +203,7 @@ export function SiteHeader({ items }) {
             href={phoneBlock.href}
             className="flex w-full shrink-0 items-center justify-end gap-2.5 sm:w-auto sm:justify-start sm:gap-3"
           >
-            {!phoneIconBroken ? (
-              <img
-                src={`${base}icon-phone-orange.svg`}
-                alt=""
-                className="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12"
-                width={48}
-                height={48}
-                decoding="async"
-                onError={() => setPhoneIconBroken(true)}
-              />
-            ) : (
-              <HeaderPhoneIcon className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" />
-            )}
+            <HeaderPhoneIcon className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" />
             <span className="text-left">
               <span className="block text-xs font-medium text-neutral-500 sm:text-sm">{phoneBlock.caption}</span>
               <span className="block text-base font-bold tracking-tight text-neutral-900 sm:text-lg">{phoneBlock.display}</span>
@@ -233,24 +219,12 @@ export function SiteHeader({ items }) {
             to="/"
             end
             className={({ isActive }) =>
-              `flex shrink-0 items-center rounded-md p-1 transition ${isActive ? "bg-orange-50/80 ring-1 ring-orange-200/60" : "opacity-95 hover:bg-neutral-50"}`
+              `flex shrink-0 items-center rounded-md p-1 transition ${isActive ? "opacity-100" : "opacity-95 hover:bg-neutral-50"}`
             }
             onClick={closeMobile}
             aria-label="Главная"
           >
-            {!homeIconBroken ? (
-              <img
-                src={`${base}icon-home-orange.svg`}
-                alt=""
-                className="h-7 w-7 object-contain sm:h-8 sm:w-8"
-                width={32}
-                height={32}
-                decoding="async"
-                onError={() => setHomeIconBroken(true)}
-              />
-            ) : (
-              <HeaderHomeIcon className="h-7 w-7 sm:h-8 sm:w-8" />
-            )}
+            <HeaderHomeIcon className="h-7 w-7 sm:h-8 sm:w-8" />
           </NavLink>
 
           <nav className="hidden min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1 md:flex md:gap-x-5 lg:gap-x-8">

@@ -44,7 +44,7 @@ const ROWS = [
 function CheckIcon() {
   return (
     <div
-      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F28C28] shadow-sm md:h-14 md:w-14"
+      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-ac-bright-orange shadow-sm md:h-14 md:w-14"
       aria-hidden
     >
       <svg className="h-6 w-6 text-white md:h-7 md:w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

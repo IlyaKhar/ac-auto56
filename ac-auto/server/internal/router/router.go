@@ -36,6 +36,7 @@ func New(cfg *config.Config, pool *pgxpool.Pool) *fiber.App {
 	vehicleRepo := repository.NewVehicleRepository(pool)
 	salonAddrRepo := repository.NewSalonAddressRepository(pool)
 	aboutGalleryRepo := repository.NewAboutGalleryRepository(pool)
+	homeMediaRepo := repository.NewHomeMediaRepository(pool)
 
 	jwtGen := appjwt.NewGenerator(cfg.JWTSecret)
 	accessTTL := time.Duration(cfg.JWTAccessMinutes) * time.Minute
@@ -45,11 +46,12 @@ func New(cfg *config.Config, pool *pgxpool.Pool) *fiber.App {
 	tgClient := telegram.New(cfg.TelegramBotToken, cfg.TelegramChatID)
 	appSvc := service.NewApplicationService(cfg, appRepo, tgClient)
 	appStaffSvc := service.NewApplicationStaffService(appRepo, userRepo)
-	publicCatalog := service.NewPublicCatalog(catRepo, svcRepo, pageRepo, blockRepo, menuRepo, footerRepo, vehicleRepo, salonAddrRepo, aboutGalleryRepo)
+	publicCatalog := service.NewPublicCatalog(catRepo, svcRepo, pageRepo, blockRepo, menuRepo, footerRepo, vehicleRepo, salonAddrRepo, aboutGalleryRepo, homeMediaRepo)
 	adminCMS := service.NewAdminCMS(catRepo, svcRepo, pageRepo, blockRepo, auditRepo)
 	adminVehicleSvc := service.NewAdminVehicle(vehicleRepo, auditRepo)
 	adminSalonSvc := service.NewAdminSalonAddress(salonAddrRepo, auditRepo)
 	adminAboutGallerySvc := service.NewAdminAboutGallery(aboutGalleryRepo, auditRepo)
+	adminHomeMediaSvc := service.NewAdminHomeMedia(homeMediaRepo, auditRepo)
 	adminUsersSvc := service.NewAdminUsersService(userRepo, auditRepo)
 	adminLayoutSvc := service.NewAdminLayoutService(menuRepo, footerRepo, pageRepo, auditRepo)
 
@@ -61,6 +63,7 @@ func New(cfg *config.Config, pool *pgxpool.Pool) *fiber.App {
 	adminVehicleH := handler.NewAdminVehicleHandler(adminVehicleSvc)
 	adminSalonH := handler.NewAdminSalonAddressHandler(adminSalonSvc)
 	adminAboutGalleryH := handler.NewAdminAboutGalleryHandler(adminAboutGallerySvc)
+	adminHomeMediaH := handler.NewAdminHomeMediaHandler(adminHomeMediaSvc)
 	usersH := handler.NewAdminUsersHandler(adminUsersSvc)
 	layoutH := handler.NewAdminLayoutHandler(adminLayoutSvc)
 
@@ -106,6 +109,7 @@ func New(cfg *config.Config, pool *pgxpool.Pool) *fiber.App {
 	v1.Get("/vehicles/:id", catH.GetVehicle)
 	v1.Get("/salon-locations", catH.GetSalonLocations)
 	v1.Get("/about-gallery", catH.GetAboutGallery)
+	v1.Get("/home-media", catH.GetHomeMedia)
 
 	// Публичная авторизация — отдельный лимит на /auth
 	authLimiter := limiter.New(limiter.Config{
@@ -187,6 +191,8 @@ func New(cfg *config.Config, pool *pgxpool.Pool) *fiber.App {
 
 	admin.Get("/about-gallery", adminAboutGalleryH.Get)
 	admin.Put("/about-gallery", adminAboutGalleryH.Put)
+	admin.Get("/home-media", adminHomeMediaH.Get)
+	admin.Put("/home-media", adminHomeMediaH.Put)
 
 	admin.Get("/pages", adminH.ListPages)
 	admin.Post("/pages", adminH.CreatePage)
