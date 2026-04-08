@@ -12,9 +12,6 @@ const AC_ORANGE = "#c41230";
 const slogan1 = import.meta.env.VITE_HEADER_SLOGAN_1 ?? "СЕТЬ САЛОНОВ";
 const slogan2 = import.meta.env.VITE_HEADER_SLOGAN_2 ?? "АВТОМОБИЛЕЙ С ПРОБЕГОМ";
 
-/** true = рядом с картинкой снова показать слоган + ACAUTO (если лого — только значок без текста) */
-const showExtraTagline = import.meta.env.VITE_HEADER_EXTRA_TAGLINE === "true";
-
 /** Инлайн-телефон, если public/icon-phone-orange.svg не загрузился */
 function HeaderPhoneIcon({ className }) {
   return (
@@ -157,23 +154,33 @@ export function SiteHeader({ items }) {
   return (
     <header className="relative z-30 border-b border-neutral-100 bg-white">
       {/* Ряд 1: один широкий логотип (SVG уже со слоганом) — без дубля текста; справа телефон */}
-      <div className="mx-auto max-w-6xl px-4 py-3 sm:py-4">
-        <div className="flex w-full flex-wrap items-center justify-between gap-y-3 gap-x-4">
+      <div className="mx-auto max-w-6xl px-4 pt-0 pb-1 sm:pt-0 sm:pb-1.5">
+        <div className="-mt-2 flex w-full flex-wrap items-center justify-between gap-y-2 gap-x-4 sm:-mt-2.5">
           <Link
             to="/"
-            className="flex min-w-0 max-w-full flex-1 items-center gap-3 sm:max-w-[70%] md:max-w-[65%]"
+            className="flex min-w-0 max-w-full items-center gap-4 sm:max-w-[72%]"
             onClick={closeMobile}
           >
             {!logoImgBroken ? (
-              <img
-                src={`${base}logocar.jpg`}
-                alt="ACT AUTO — сеть салонов автомобилей с пробегом"
-                className="h-10 w-auto max-w-full object-contain object-left sm:h-11 md:h-12"
-                width={320}
-                height={48}
-                decoding="async"
-                onError={() => setLogoImgBroken(true)}
-              />
+              <>
+                <img
+                  src={`${base}logocar.png`}
+                  alt="ACT AUTO — сеть салонов автомобилей с пробегом"
+                  className="h-auto w-[5.8rem] shrink-0 object-contain object-left sm:w-[7.2rem] md:w-[8.8rem]"
+                  width={136}
+                  height={64}
+                  decoding="async"
+                  onError={() => setLogoImgBroken(true)}
+                />
+                <div className="min-w-0 text-left">
+                  <p className="text-[10px] font-extrabold uppercase leading-tight tracking-[0.02em] text-[#1e2a3a] sm:text-xs md:text-[0.9rem]">
+                    Сеть салонов
+                  </p>
+                  <p className="text-[10px] font-extrabold uppercase leading-tight tracking-[0.02em] text-[#1e2a3a] sm:text-xs md:text-[0.9rem]">
+                    автомобилей с пробегом
+                  </p>
+                </div>
+              </>
             ) : (
               <div className="flex min-w-0 items-center gap-3">
                 <HeaderCarSilhouette className="h-10 w-[4.5rem] shrink-0 sm:h-12 sm:w-[5.25rem]" />
@@ -188,16 +195,6 @@ export function SiteHeader({ items }) {
                 </div>
               </div>
             )}
-            {!logoImgBroken && showExtraTagline ? (
-              <div className="hidden min-w-0 shrink-0 text-left sm:block">
-                <p className="text-[10px] font-bold uppercase leading-tight tracking-wide text-neutral-800 md:text-xs">
-                  {slogan1}
-                </p>
-                <p className="text-[10px] font-bold uppercase leading-tight tracking-wide text-neutral-800 md:text-xs">
-                  {slogan2}
-                </p>
-              </div>
-            ) : null}
           </Link>
           <a
             href={phoneBlock.href}
@@ -214,7 +211,7 @@ export function SiteHeader({ items }) {
 
       {/* Ряд 2: домик → меню */}
       <div className="bg-white">
-        <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-2 sm:gap-3 md:gap-5">
+        <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-1.5 sm:gap-3 md:gap-5">
           <NavLink
             to="/"
             end
