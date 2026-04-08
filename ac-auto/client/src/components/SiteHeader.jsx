@@ -152,13 +152,13 @@ export function SiteHeader({ items }) {
 
   // Шапка в потоке документа (не sticky) — при скролле уезжает вверх вместе с контентом
   return (
-    <header className="relative z-30 border-b border-neutral-100 bg-white">
+    <header className="relative z-30 mb-[25px] border-b border-neutral-100 bg-white pt-[25px]">
       {/* Ряд 1: один широкий логотип (SVG уже со слоганом) — без дубля текста; справа телефон */}
-      <div className="mx-auto max-w-6xl px-4 pt-0 pb-1 sm:pt-0 sm:pb-1.5">
-        <div className="-mt-2 flex w-full flex-wrap items-center justify-between gap-y-2 gap-x-4 sm:-mt-2.5">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="flex min-h-[66px] w-full items-center justify-between gap-4 md:min-h-[72px]">
           <Link
             to="/"
-            className="flex min-w-0 max-w-full items-center gap-4 sm:max-w-[72%]"
+            className="flex min-w-0 max-w-full items-center gap-3 sm:max-w-[72%]"
             onClick={closeMobile}
           >
             {!logoImgBroken ? (
@@ -166,17 +166,17 @@ export function SiteHeader({ items }) {
                 <img
                   src={`${base}logocar.png`}
                   alt="ACT AUTO — сеть салонов автомобилей с пробегом"
-                  className="h-auto w-[5.8rem] shrink-0 object-contain object-left sm:w-[7.2rem] md:w-[8.8rem]"
+                  className="block h-9 w-auto shrink-0 object-contain object-left sm:h-10 md:h-11"
                   width={136}
                   height={64}
                   decoding="async"
                   onError={() => setLogoImgBroken(true)}
                 />
                 <div className="min-w-0 text-left">
-                  <p className="text-[10px] font-extrabold uppercase leading-tight tracking-[0.02em] text-[#1e2a3a] sm:text-xs md:text-[0.9rem]">
+                  <p className="m-0 text-[10px] font-extrabold uppercase leading-none tracking-[0.02em] text-[#1e2a3a] sm:text-[11px] md:text-[0.86rem]">
                     Сеть салонов
                   </p>
-                  <p className="text-[10px] font-extrabold uppercase leading-tight tracking-[0.02em] text-[#1e2a3a] sm:text-xs md:text-[0.9rem]">
+                  <p className="m-0 mt-0.5 text-[10px] font-extrabold uppercase leading-none tracking-[0.02em] text-[#1e2a3a] sm:text-[11px] md:text-[0.86rem]">
                     автомобилей с пробегом
                   </p>
                 </div>
@@ -200,10 +200,10 @@ export function SiteHeader({ items }) {
             href={phoneBlock.href}
             className="flex w-full shrink-0 items-center justify-end gap-2.5 sm:w-auto sm:justify-start sm:gap-3"
           >
-            <HeaderPhoneIcon className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" />
+            <HeaderPhoneIcon className="h-9 w-9 shrink-0 sm:h-10 sm:w-10 md:h-11 md:w-11" />
             <span className="text-left">
-              <span className="block text-xs font-medium text-neutral-500 sm:text-sm">{phoneBlock.caption}</span>
-              <span className="block text-base font-bold tracking-tight text-neutral-900 sm:text-lg">{phoneBlock.display}</span>
+              <span className="block text-[10px] font-medium text-neutral-500 sm:text-xs">{phoneBlock.caption}</span>
+              <span className="block text-sm font-bold tracking-tight text-neutral-900 sm:text-base">{phoneBlock.display}</span>
             </span>
           </a>
         </div>
@@ -211,7 +211,7 @@ export function SiteHeader({ items }) {
 
       {/* Ряд 2: домик → меню */}
       <div className="bg-white">
-        <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-1.5 sm:gap-3 md:gap-5">
+        <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-1 sm:gap-3 md:gap-5">
           <NavLink
             to="/"
             end

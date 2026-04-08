@@ -4,6 +4,7 @@ import { createApplication, fetchVehicles } from "../api/publicApi.js";
 import { TurnstileField } from "./TurnstileField.jsx";
 import { RuFlagIcon } from "./icons/RuFlagIcon.jsx";
 import { LEAD_MODAL_OPEN_EVENT } from "../utils/leadModalEvents.js";
+import { normalizePhoneForApi, validateName, validatePhone } from "../utils/applicationValidation.js";
 
 const STORAGE_DISMISS = "ac_lead_modal_dismissed";
 
@@ -120,6 +121,10 @@ export function LeadCaptureModal() {
   async function onSubmit(e) {
     e.preventDefault();
     setErr("");
+    const nameErr = validateName(name);
+    if (nameErr) return setErr(nameErr);
+    const phoneErr = validatePhone(phone);
+    if (phoneErr) return setErr(phoneErr);
     if (needCaptcha && !turnstileToken) {
       setErr("Подтвердите, что вы не робот");
       return;
@@ -136,7 +141,7 @@ export function LeadCaptureModal() {
       await createApplication({
         type: "callback",
         name: name.trim(),
-        phone: phone.trim(),
+        phone: normalizePhoneForApi(phone),
         message: msgParts.join(". "),
         turnstile_token: turnstileToken || "",
       });

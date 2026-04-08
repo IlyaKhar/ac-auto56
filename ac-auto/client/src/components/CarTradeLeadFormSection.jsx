@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { createApplication } from "../api/publicApi.js";
 import { TurnstileField } from "./TurnstileField.jsx";
 import { RuFlagIcon } from "./icons/RuFlagIcon.jsx";
+import { normalizePhoneForApi, validateCarTradeForm } from "../utils/applicationValidation.js";
 
 const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? "";
 
@@ -57,14 +58,8 @@ export function CarTradeLeadFormSection({ anchorId, title, subtitle, messagePref
   async function onSubmit(e) {
     e.preventDefault();
     setErr("");
-    if (!mileage) {
-      setErr("Выберите пробег из списка");
-      return;
-    }
-    if (cityMode === "other" && !otherCity.trim()) {
-      setErr("Укажите город");
-      return;
-    }
+    const formErr = validateCarTradeForm({ brand, model, year, mileage, name, phone, cityMode, otherCity });
+    if (formErr) return setErr(formErr);
     if (needCaptcha && !turnstileToken) {
       setErr("Подтвердите, что вы не робот");
       return;
@@ -84,7 +79,7 @@ export function CarTradeLeadFormSection({ anchorId, title, subtitle, messagePref
       await createApplication({
         type: "callback",
         name: name.trim(),
-        phone: phone.trim(),
+        phone: normalizePhoneForApi(phone),
         car_brand: [brand.trim(), model.trim()].filter(Boolean).join(" ").trim() || undefined,
         message: msgParts.join(" "),
         turnstile_token: turnstileToken || "",

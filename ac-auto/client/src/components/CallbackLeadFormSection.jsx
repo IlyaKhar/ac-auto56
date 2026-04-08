@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { createApplication } from "../api/publicApi.js";
 import { TurnstileField } from "./TurnstileField.jsx";
 import { RuFlagIcon } from "./icons/RuFlagIcon.jsx";
+import { normalizePhoneForApi, validateCity, validateName, validatePhone } from "../utils/applicationValidation.js";
 
 const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? "";
 const fieldClass =
@@ -46,10 +47,12 @@ export function CallbackLeadFormSection({
   async function onSubmit(e) {
     e.preventDefault();
     setErr("");
-    if (cityMode === "other" && !otherCity.trim()) {
-      setErr("Укажите город");
-      return;
-    }
+    const cityErr = validateCity(cityMode, otherCity);
+    if (cityErr) return setErr(cityErr);
+    const nameErr = validateName(name);
+    if (nameErr) return setErr(nameErr);
+    const phoneErr = validatePhone(phone);
+    if (phoneErr) return setErr(phoneErr);
     if (needCaptcha && !turnstileToken) {
       setErr("Подтвердите, что вы не робот");
       return;
@@ -59,7 +62,7 @@ export function CallbackLeadFormSection({
       await createApplication({
         type: "callback",
         name: name.trim(),
-        phone: phone.trim(),
+        phone: normalizePhoneForApi(phone),
         message: `${messagePrefix}\nГород: ${cityLine()}`,
         turnstile_token: turnstileToken || "",
       });

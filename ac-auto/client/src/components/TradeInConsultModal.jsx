@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { createApplication, fetchVehicles } from "../api/publicApi.js";
 import { TurnstileField } from "./TurnstileField.jsx";
 import { RuFlagIcon } from "./icons/RuFlagIcon.jsx";
+import { normalizePhoneForApi, validateCity, validateName, validatePhone } from "../utils/applicationValidation.js";
 
 const base = import.meta.env.BASE_URL || "/";
 
@@ -88,10 +89,12 @@ export function TradeInConsultModal({ open, onClose }) {
   async function onSubmit(e) {
     e.preventDefault();
     setErr("");
-    if (cityMode === "other" && !otherCity.trim()) {
-      setErr("Укажите город");
-      return;
-    }
+    const cityErr = validateCity(cityMode, otherCity);
+    if (cityErr) return setErr(cityErr);
+    const nameErr = validateName(name);
+    if (nameErr) return setErr(nameErr);
+    const phoneErr = validatePhone(phone);
+    if (phoneErr) return setErr(phoneErr);
     if (needCaptcha && !turnstileToken) {
       setErr("Подтвердите, что вы не робот");
       return;
@@ -103,7 +106,7 @@ export function TradeInConsultModal({ open, onClose }) {
       await createApplication({
         type: "callback",
         name: name.trim(),
-        phone: phone.trim(),
+        phone: normalizePhoneForApi(phone),
         message: `Герой «Узнать подробнее». Город: ${cityLine}`,
         turnstile_token: turnstileToken || "",
       });

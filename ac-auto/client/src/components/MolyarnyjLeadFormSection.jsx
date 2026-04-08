@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { createApplication } from "../api/publicApi.js";
 import { TurnstileField } from "./TurnstileField.jsx";
 import { RuFlagIcon } from "./icons/RuFlagIcon.jsx";
+import { normalizePhoneForApi, validateName, validatePhone } from "../utils/applicationValidation.js";
 
 const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? "";
 const fieldClass =
@@ -26,6 +27,10 @@ export function MolyarnyjLeadFormSection() {
   async function onSubmit(e) {
     e.preventDefault();
     setErr("");
+    const nameErr = validateName(name);
+    if (nameErr) return setErr(nameErr);
+    const phoneErr = validatePhone(phone);
+    if (phoneErr) return setErr(phoneErr);
     if (needCaptcha && !turnstileToken) {
       setErr("Подтвердите, что вы не робот");
       return;
@@ -35,7 +40,7 @@ export function MolyarnyjLeadFormSection() {
       await createApplication({
         type: "callback",
         name: name.trim(),
-        phone: phone.trim(),
+        phone: normalizePhoneForApi(phone),
         message: "Заявка: малярно-кузовной цех ROSTOSH",
         turnstile_token: turnstileToken || "",
       });

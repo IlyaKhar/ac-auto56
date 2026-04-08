@@ -65,18 +65,6 @@ function FooterCarIcon({ className }) {
   );
 }
 
-function FooterWordmark() {
-  const raw = (import.meta.env.VITE_SITE_BRAND ?? "ACAUTO").replace(/\s+/g, "");
-  const ac = raw.slice(0, 2) || "AC";
-  const auto = raw.slice(2) || "AUTO";
-  return (
-    <span className="text-lg font-bold tracking-tight">
-      <span className="text-black">{ac}</span>
-      <span className="text-ac-orange">{auto}</span>
-    </span>
-  );
-}
-
 /** Юридический текст под колонками. */
 function FooterLegal() {
   return (
@@ -105,26 +93,33 @@ function DefaultFooterColumns() {
   return (
     <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
       <div className="flex flex-col items-start">
-        <Link to="/" className="mb-4 flex flex-col items-center gap-2 sm:items-start">
+        <Link to="/" className="mb-5 flex items-center gap-3">
           {!logoBroken ? (
             <img
-              src={`${base}logo-car-icon.svg`}
+              src={`${base}logocar.png`}
               alt=""
-              className="h-12 w-auto object-contain"
-              width={64}
-              height={48}
+              className="h-auto w-[5rem] shrink-0 object-contain"
+              width={128}
+              height={56}
               onError={() => setLogoBroken(true)}
             />
           ) : (
             <FooterCarIcon className="mb-1 h-12 w-16" />
           )}
-          <FooterWordmark />
+          <div className="text-left">
+            <p className="text-[0.8rem] font-extrabold uppercase leading-tight tracking-[0.02em] text-[#1e2a3a]">
+              Сеть салонов
+            </p>
+            <p className="text-[0.8rem] font-extrabold uppercase leading-tight tracking-[0.02em] text-[#1e2a3a]">
+              автомобилей с пробегом
+            </p>
+          </div>
         </Link>
-        <div className="flex flex-col gap-1 text-sm text-neutral-500">
-          <a href={footPhone1.tel} className="transition hover:text-ac-orange">
+        <div className="flex flex-col gap-1 text-lg font-medium leading-snug text-[#4b5563] sm:text-xl">
+          <a href={footPhone1.tel} className="whitespace-nowrap transition hover:text-ac-orange">
             {footPhone1.display}
           </a>
-          <a href={footPhone2.tel} className="transition hover:text-ac-orange">
+          <a href={footPhone2.tel} className="whitespace-nowrap transition hover:text-ac-orange">
             {footPhone2.display}
           </a>
         </div>

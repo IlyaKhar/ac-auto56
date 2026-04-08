@@ -5,7 +5,7 @@ import { fetchAboutGallery } from "../api/publicApi.js";
 import { openLeadCaptureModal } from "../utils/leadModalEvents.js";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
-const logoSrc = `${base}logo-car-icon.svg`;
+const logoSrc = `${base}logocar.png`;
 
 function ScrollChevron() {
   return (
@@ -30,11 +30,8 @@ function AboutIntro() {
     >
       <div className="mx-auto flex max-w-3xl flex-col items-center px-4 text-center md:px-6">
         <div className="flex flex-col items-center gap-2">
-          <img src={logoSrc} alt="" className="h-14 w-auto opacity-95 md:h-16" width={56} height={56} />
-          <p className="text-2xl font-bold tracking-tight md:text-3xl">
-            <span className="text-white">AC </span>
-            <span className="text-[#e31e24]">AUTO</span>
-          </p>
+          <img src={logoSrc} alt="" className="h-40 w-auto opacity-95 md:h-48" width={240} height={240} />
+
         </div>
         <h2 id="about-intro-title" className="mt-10 text-lg font-bold uppercase tracking-[0.12em] md:text-xl">
           О компании
