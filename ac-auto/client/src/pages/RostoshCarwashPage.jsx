@@ -1,7 +1,6 @@
 import { ActAutoSingleAddressSection } from "../components/ActAutoSingleAddressSection.jsx";
 import { OurServicesSection } from "../components/OurServicesSection.jsx";
 import { RostoshCarwashFindUsSection } from "../components/RostoshCarwashFindUsSection.jsx";
-import { RostoshCarwashLeadFormSection } from "../components/RostoshCarwashLeadFormSection.jsx";
 import { RostoshCarwashServicesSection } from "../components/RostoshCarwashServicesSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
@@ -46,7 +45,7 @@ export default function RostoshCarwashPage() {
 
             <div className="mt-10 flex w-full max-w-md flex-col gap-3 sm:mt-12 sm:flex-row sm:justify-center">
               <a
-                href="#rostosh-carwash-lead-form"
+                href="/service-order?mode=carwash"
                 className="inline-flex min-h-[48px] flex-1 items-center justify-center rounded-sm bg-[#e02020] px-6 py-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-white shadow-lg transition hover:brightness-110 active:brightness-95 sm:text-sm"
               >
                 Оставить заявку
@@ -62,7 +61,6 @@ export default function RostoshCarwashPage() {
         </section>
       </div>
       <RostoshCarwashServicesSection />
-      <RostoshCarwashLeadFormSection />
       <RostoshCarwashFindUsSection />
       <OurServicesSection />
       <ActAutoSingleAddressSection />

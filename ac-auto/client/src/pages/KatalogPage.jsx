@@ -12,6 +12,7 @@ import { ReviewsSection } from "../components/ReviewsSection.jsx";
 import { SalonLocationsSection } from "../components/SalonLocationsSection.jsx";
 import { OurServicesSection } from "../components/OurServicesSection.jsx";
 import { TradeInConsultModal } from "../components/TradeInConsultModal.jsx";
+import { useFavoriteVehicles } from "../hooks/useFavoriteVehicles.js";
 
 /**
  * Главная / и /katalog: герой (как раньше), квиз, каталог, кнопка на /avtomobili, блоки ниже.
@@ -20,7 +21,7 @@ export default function KatalogPage() {
   const [tradeModalOpen, setTradeModalOpen] = useState(false);
   const [vehicles, setVehicles] = useState([]);
   const [detailVehicle, setDetailVehicle] = useState(null);
-  const [favoriteIds, setFavoriteIds] = useState(() => new Set());
+  const { favoriteIds, toggleFavorite } = useFavoriteVehicles();
   /** Ответ API адресов; null — ошибка сети, в секции покажутся дефолты */
   const [salonLocationsData, setSalonLocationsData] = useState(null);
   const [homeMedia, setHomeMedia] = useState(null);
@@ -61,15 +62,6 @@ export default function KatalogPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
-
-  const toggleFavorite = useCallback((id) => {
-    setFavoriteIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
   }, []);
 
   return (

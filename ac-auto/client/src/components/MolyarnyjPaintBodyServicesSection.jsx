@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
 
 function IconCircle({ children }) {
@@ -16,10 +17,10 @@ function IconImage({ src, alt }) {
 }
 
 const ITEMS = [
-  { label: "Дефектовка", icon: `${base}icons/Оценкаавто.svg` },
-  { label: "Малярно-кузовные работы", icon: `${base}icons/Малярно-кузовные аботы.svg` },
-  { label: "Стапель", icon: `${base}icons/Стапель.svg` },
-  { label: "Полировка", icon: `${base}icons/Нанесениезащитных.svg` },
+  { label: "Дефектовка", icon: `${base}icons/Оценкаавто.svg`, service: "local_repair" },
+  { label: "Малярно-кузовные работы", icon: `${base}icons/Малярно-кузовные аботы.svg`, service: "paint" },
+  { label: "Стапель", icon: `${base}icons/Стапель.svg`, service: "local_repair" },
+  { label: "Полировка", icon: `${base}icons/Нанесениезащитных.svg`, service: "polish" },
 ];
 
 /**
@@ -44,6 +45,12 @@ export function MolyarnyjPaintBodyServicesSection() {
               <h3 className="mx-auto mt-4 max-w-[11rem] text-[1.35rem] font-bold leading-tight text-neutral-900 md:text-[1.55rem]">
                 {item.label}
               </h3>
+              <Link
+                to={`/service-order?mode=molyarn&service=${encodeURIComponent(item.service)}`}
+                className="mt-4 inline-flex rounded bg-ac-vykup-cta px-4 py-2 text-xs font-bold uppercase tracking-wide text-white transition hover:brightness-110"
+              >
+                В корзину
+              </Link>
             </li>
           ))}
         </ul>

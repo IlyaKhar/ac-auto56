@@ -57,6 +57,22 @@ function HeaderHomeIcon({ className }) {
   );
 }
 
+function HeaderCartIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path
+        stroke={AC_ORANGE}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4 6h3l2 14h14l3-10H8"
+      />
+      <circle cx="13" cy="25" r="2" fill={AC_ORANGE} />
+      <circle cx="22" cy="25" r="2" fill={AC_ORANGE} />
+    </svg>
+  );
+}
+
 /** Бренд: первые 2 символа чёрные, остальное оранжевое. */
 function LogoWordmark() {
   const raw = (import.meta.env.VITE_SITE_BRAND ?? "ACAUTO").replace(/\s+/g, "");
@@ -228,6 +244,19 @@ export function SiteHeader({ items }) {
             {effectiveNavRoots.map((it) => (
               <MainNavItem key={it.id} item={it} childrenList={effectiveChildrenMap.get(it.id) ?? []} />
             ))}
+            <Link
+              to="/service-order"
+              className="inline-flex items-center gap-1 whitespace-nowrap px-1 py-1.5 text-sm font-medium text-[#666666] hover:text-ac-orange"
+            >
+              <HeaderCartIcon className="h-5 w-5" />
+              Корзина
+            </Link>
+            <Link
+              to="/izbrannoe"
+              className="inline-flex items-center gap-1 whitespace-nowrap px-1 py-1.5 text-sm font-medium text-[#666666] hover:text-ac-orange"
+            >
+              ❤ Избранное
+            </Link>
             <span className="mx-0.5 hidden h-4 w-px bg-neutral-200 lg:inline" aria-hidden />
             <Link
               to="/staff/login"
@@ -281,6 +310,12 @@ export function SiteHeader({ items }) {
             ))}
             <Link to="/staff/login" className="py-1 text-sm text-neutral-500" onClick={closeMobile}>
               Staff
+            </Link>
+            <Link to="/service-order" className="py-1 text-sm font-medium text-neutral-700" onClick={closeMobile}>
+              Корзина
+            </Link>
+            <Link to="/izbrannoe" className="py-1 text-sm font-medium text-neutral-700" onClick={closeMobile}>
+              Избранное
             </Link>
             <Link to="/admin/login" className="py-1 text-sm text-neutral-500" onClick={closeMobile}>
               Админ

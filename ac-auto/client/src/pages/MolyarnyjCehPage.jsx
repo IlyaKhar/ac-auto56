@@ -1,6 +1,5 @@
 import { ActAutoSingleAddressSection } from "../components/ActAutoSingleAddressSection.jsx";
 import { MolyarnyjFindUsSection } from "../components/MolyarnyjFindUsSection.jsx";
-import { MolyarnyjLeadFormSection } from "../components/MolyarnyjLeadFormSection.jsx";
 import { MolyarnyjPaintBodyServicesSection } from "../components/MolyarnyjPaintBodyServicesSection.jsx";
 import { OurServicesSection } from "../components/OurServicesSection.jsx";
 
@@ -49,7 +48,7 @@ export default function MolyarnyjCehPage() {
 
             <div className="mt-10 flex w-full max-w-md flex-col gap-3 sm:mt-12 sm:flex-row sm:justify-center">
               <a
-                href="#molyarnyj-lead-form"
+                href="/service-order?mode=molyarn"
                 className="inline-flex min-h-[48px] flex-1 items-center justify-center rounded-sm bg-[#e02020] px-6 py-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-white shadow-lg transition hover:brightness-110 active:brightness-95 sm:text-sm"
               >
                 Оставить заявку
@@ -65,7 +64,6 @@ export default function MolyarnyjCehPage() {
         </section>
       </div>
       <MolyarnyjPaintBodyServicesSection />
-      <MolyarnyjLeadFormSection />
       <MolyarnyjFindUsSection />
       <OurServicesSection />
       <ActAutoSingleAddressSection />

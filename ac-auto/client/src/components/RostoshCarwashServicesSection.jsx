@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
 
 function IconCircle({ children }) {
@@ -16,12 +17,12 @@ function IconImage({ src, alt }) {
 }
 
 const ITEMS = [
-  { label: "3-фазная мойка", icon: `${base}icons/3-фазнаямойка.svg` },
-  { label: "2-фазная мойка", icon: `${base}icons/3-фазнаямойка.svg` },
-  { label: "Химчистка салона", icon: `${base}icons/Химчистка.svg` },
-  { label: "Озонирование салона", icon: `${base}icons/Озонированиесалона.svg` },
-  { label: "Полировка кузова", icon: `${base}icons/Нанесениезащитных.svg` },
-  { label: "Нанесение защитных составов", icon: `${base}icons/Нанесениезащитных.svg` },
+  { label: "3-фазная мойка", icon: `${base}icons/3-фазнаямойка.svg`, service: "full_wash" },
+  { label: "2-фазная мойка", icon: `${base}icons/3-фазнаямойка.svg`, service: "body_wash" },
+  { label: "Химчистка салона", icon: `${base}icons/Химчистка.svg`, service: "detailing" },
+  { label: "Озонирование салона", icon: `${base}icons/Озонированиесалона.svg`, service: "detailing" },
+  { label: "Полировка кузова", icon: `${base}icons/Нанесениезащитных.svg`, service: "detailing" },
+  { label: "Нанесение защитных составов", icon: `${base}icons/Нанесениезащитных.svg`, service: "detailing" },
 ];
 
 /**
@@ -46,6 +47,12 @@ export function RostoshCarwashServicesSection() {
               <h3 className="mx-auto mt-4 max-w-[14rem] text-[1.35rem] font-bold leading-tight text-neutral-900 md:text-[1.55rem]">
                 {item.label}
               </h3>
+              <Link
+                to={`/service-order?mode=carwash&service=${encodeURIComponent(item.service)}`}
+                className="mt-4 inline-flex rounded bg-ac-vykup-cta px-4 py-2 text-xs font-bold uppercase tracking-wide text-white transition hover:brightness-110"
+              >
+                В корзину
+              </Link>
             </li>
           ))}
         </ul>

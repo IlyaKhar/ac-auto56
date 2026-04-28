@@ -16,8 +16,10 @@ import KomissionnayaProdazhaPage from "./pages/KomissionnayaProdazhaPage.jsx";
 import AvtokreditovaniePage from "./pages/AvtokreditovaniePage.jsx";
 import AvtostrakhovaniePage from "./pages/AvtostrakhovaniePage.jsx";
 import IdealCarGuaranteePage from "./pages/IdealCarGuaranteePage.jsx";
+import FavoritesPage from "./pages/FavoritesPage.jsx";
 import { STATIC_SERVICE_SLUGS } from "./data/staticServices.js";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+import ServiceOrderPage from "./pages/ServiceOrderPage.jsx";
 import { RequireAdmin } from "./admin/RequireAdmin.jsx";
 import AdminLayout from "./admin/AdminLayout.jsx";
 import AdminLoginPage from "./admin/AdminLoginPage.jsx";
@@ -88,6 +90,7 @@ export default function App() {
         <Route path="/" element={<KatalogPage />} />
         <Route path="/katalog" element={<KatalogPage />} />
         <Route path="/avtomobili" element={<AvtomobiliPage />} />
+        <Route path="/izbrannoe" element={<FavoritesPage />} />
         <Route path="/page/idealnyy-avtomobil-s-garantiey" element={<IdealCarGuaranteePage />} />
         <Route path="/page/vykup" element={<VykupPage />} />
         <Route path="/page/trade-in" element={<TradeInPage />} />
@@ -102,6 +105,7 @@ export default function App() {
         <Route path="/page/molyarnyj-ceh" element={<MolyarnyjCehPage />} />
         <Route path="/molyarnyj-ceh" element={<Navigate to="/page/molyarnyj-ceh" replace />} />
         <Route path="/rostosh_carwash" element={<RostoshCarwashPage />} />
+        <Route path="/service-order" element={<ServiceOrderPage />} />
         <Route path="/page/avtomoyka" element={<Navigate to="/rostosh_carwash" replace />} />
         <Route path="/o-kompanii" element={<AboutCompanyPage />} />
         <Route path="/page/o-kompanii" element={<Navigate to="/o-kompanii" replace />} />
