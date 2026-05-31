@@ -3,16 +3,25 @@ const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
 function IconCircle({ children }) {
   return (
     <div
-      className="mx-auto flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full bg-gradient-to-br from-[#e02020] via-[#c41230] to-[#5c0d0d] shadow-md md:h-[5rem] md:w-[5rem]"
+      className="mx-auto flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full bg-gradient-to-br from-[#e02020] via-[#c41230] to-[#5c0d0d] p-2 shadow-md md:h-[5rem] md:w-[5rem] md:p-2.5"
       aria-hidden
     >
-      <span className="text-white">{children}</span>
+      {children}
     </div>
   );
 }
 
+/** ~75% диаметра круга — иконка заполняет красный фон без обрезки */
 function IconImage({ src, alt }) {
-  return <img src={src} alt={alt} className="h-8 w-8 object-contain md:h-9 md:w-9" loading="lazy" decoding="async" />;
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className="size-[3.15rem] object-contain md:size-[3.5rem]"
+      loading="lazy"
+      decoding="async"
+    />
+  );
 }
 
 const ITEMS = [
