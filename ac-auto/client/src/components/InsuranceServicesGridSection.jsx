@@ -62,7 +62,7 @@ export function InsuranceServicesGridSection({ onRequest, adminImages = [] }) {
           id="insurance-services-grid-title"
           className="text-center text-base font-bold uppercase tracking-[0.08em] text-white md:text-lg"
         >
-          Услуги страхования от «ACT AUTO»
+          Услуги страхования от «ACT АВТО»
         </h2>
 
         <ul className="mt-10 grid list-none grid-cols-1 gap-6 md:mt-14 md:grid-cols-2 md:gap-8">

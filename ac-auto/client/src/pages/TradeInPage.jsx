@@ -57,7 +57,7 @@ export default function TradeInPage() {
             className="text-center text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
           >
             <span className="block uppercase tracking-[0.04em]">Trade-in от</span>
-            <span className="mt-1 block">«ACT AUTO»</span>
+            <span className="mt-1 block">«ACT АВТО»</span>
           </h1>
 
           <p className="mx-auto mt-5 max-w-3xl text-center text-base font-medium text-white md:mt-6 md:text-lg md:leading-relaxed">

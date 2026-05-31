@@ -14,7 +14,7 @@ const PHOTOS = [
   {
     src: "",
     span: "col-span-2 row-span-2 col-start-3 row-start-3",
-    alt: "Клиент у дилерского центра AC AUTO",
+    alt: "Клиент у дилерского центра ACT АВТО",
   },
 ];
 

@@ -6,7 +6,7 @@ CREATE TABLE salon_address_settings (
 );
 
 INSERT INTO salon_address_settings (id, section_title)
-VALUES (1, 'Адрес автосалона и автосервиса «ACT AUTO»');
+VALUES (1, 'Адрес автосалона и автосервиса «ACT АВТО»');
 
 CREATE TABLE salon_addresses (
     id BIGSERIAL PRIMARY KEY,

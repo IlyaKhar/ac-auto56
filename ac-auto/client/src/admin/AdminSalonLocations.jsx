@@ -158,7 +158,7 @@ export default function AdminSalonLocations() {
           className={fieldClass}
           value={sectionTitle}
           onChange={(e) => setSectionTitle(e.target.value)}
-          placeholder="Адрес автосалона и автосервиса «ACT AUTO»"
+          placeholder="Адрес автосалона и автосервиса «ACT АВТО»"
         />
         <button type="submit" className={btnPrimary}>
           Сохранить заголовок

@@ -163,7 +163,7 @@ export function PartnerBanksSection({ title = "Банки партнёров" })
 
 /** Партнёры по страхованию — те же стрелки/сетка, файлы в public/partner-insurance/01.jpg … 04.jpg */
 export function PartnerInsuranceSection({
-  title = 'Партнёры «ACT AUTO» по услуге страхования',
+  title = 'Партнёры «ACT АВТО» по услуге страхования',
 }) {
   return <PartnersLogoSlider slides={INSURANCE_SLIDES} title={title} />;
 }

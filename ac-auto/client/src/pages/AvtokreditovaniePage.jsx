@@ -54,7 +54,7 @@ export default function AvtokreditovaniePage() {
               id="avtokredit-hero-title"
               className="text-center text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
             >
-              Автокредит от «ACT AUTO»
+              Автокредит от «ACT АВТО»
             </h1>
 
             <p className="mx-auto mt-5 max-w-3xl text-center text-base font-medium text-white md:mt-6 md:text-lg md:leading-relaxed">
@@ -82,7 +82,7 @@ export default function AvtokreditovaniePage() {
         </section>
       </div>
 
-      <PartnerBanksSection title='Партнёры «ACT AUTO» в автокредитовании' />
+      <PartnerBanksSection title='Партнёры «ACT АВТО» в автокредитовании' />
       <AvtokreditStagesSection />
       <AvtokreditLeadFormSection />
       <OurServicesSection />

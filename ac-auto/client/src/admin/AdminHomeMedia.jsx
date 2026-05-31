@@ -124,7 +124,7 @@ export default function AdminHomeMedia() {
             placeholder="/happy-owners/custom-1.jpg"
           />
           <SlotsEditor
-            title="Услуги страхования от «ACT AUTO» (4)"
+            title="Услуги страхования от «ACT АВТО» (4)"
             hint="Порядок: ОСАГО, КАСКО, Страхование жизни, GAP."
             values={insuranceServices}
             onChange={setInsuranceServices}

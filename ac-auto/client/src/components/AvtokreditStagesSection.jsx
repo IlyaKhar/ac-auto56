@@ -32,7 +32,7 @@ export function AvtokreditStagesSection() {
           id="avtokredit-stages-title"
           className="text-center text-base font-bold uppercase tracking-[0.08em] text-white md:text-lg"
         >
-          Этапы автокредитования в «ACT AUTO»
+          Этапы автокредитования в «ACT АВТО»
         </h2>
 
         <ul className="mt-12 grid list-none grid-cols-1 gap-10 md:mt-16 md:grid-cols-2 md:gap-x-10 md:gap-y-14">

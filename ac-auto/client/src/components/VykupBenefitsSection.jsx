@@ -59,7 +59,7 @@ export function VykupBenefitsSection() {
           id="vykup-benefits-title"
           className="mx-auto max-w-5xl text-center text-sm font-bold uppercase leading-snug tracking-[0.08em] text-neutral-900 sm:text-base md:text-lg lg:text-[1.7rem]"
         >
-          Преимущества выкупа автомобиля для клиентов «ACT AUTO»
+          Преимущества выкупа автомобиля для клиентов «ACT АВТО»
         </h2>
 
         <ul className="mt-12 grid list-none grid-cols-1 gap-8 md:mt-14 md:grid-cols-2 md:gap-x-12 md:gap-y-10">

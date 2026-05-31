@@ -7,7 +7,7 @@ const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
  */
 export const SALON_LOCATIONS_BLOCK_TYPE = "salon_locations";
 
-const DEFAULT_TITLE = "Адрес автосалона и автосервиса «ACT AUTO»";
+const DEFAULT_TITLE = "Адрес автосалона и автосервиса «ACT АВТО»";
 
 /** Карточка организации: одна точка на Яндексе и в 2ГИС для обоих адресов на Авторемонтной */
 const DEFAULT_MAP_LINKS = {

@@ -64,7 +64,7 @@ export default function VykupPage() {
           </h1>
 
           <p className="mx-auto mt-5 max-w-3xl text-center text-base font-medium text-white md:mt-6 md:text-lg md:leading-relaxed">
-            Быстрый и надёжный способ продать свой автомобиль с помощью «ACT AUTO»!
+            Быстрый и надёжный способ продать свой автомобиль с помощью «ACT АВТО»!
           </p>
 
           {/* Блок списка: по центру экрана, текст строк — влево (как на макете) */}

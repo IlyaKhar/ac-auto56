@@ -65,7 +65,7 @@ export default function AvtostrakhovaniePage() {
               id="avtostrakh-hero-title"
               className="text-center text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
             >
-              Все услуги страхования от «ACT AUTO»
+              Все услуги страхования от «ACT АВТО»
             </h1>
 
             <p className="mx-auto mt-5 max-w-3xl text-center text-base font-medium text-white md:mt-6 md:text-lg md:leading-relaxed">

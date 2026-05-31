@@ -73,15 +73,15 @@ function HeaderCartIcon({ className }) {
   );
 }
 
-/** Бренд: первые 2 символа чёрные, остальное оранжевое. */
+/** Бренд: ACT чёрным, АВТО оранжевым. */
 function LogoWordmark() {
-  const raw = (import.meta.env.VITE_SITE_BRAND ?? "ACAUTO").replace(/\s+/g, "");
-  const ac = raw.slice(0, 2) || "AC";
-  const auto = raw.slice(2) || "AUTO";
+  const raw = (import.meta.env.VITE_SITE_BRAND ?? "ACTАВТО").replace(/\s+/g, "");
+  const prefix = raw.slice(0, 3) || "ACT";
+  const suffix = raw.slice(3) || "АВТО";
   return (
     <span className="mt-0.5 block text-left text-base font-bold leading-none tracking-tight sm:text-lg">
-      <span className="text-black">{ac}</span>
-      <span className="text-ac-orange">{auto}</span>
+      <span className="text-black">{prefix}</span>
+      <span className="text-ac-orange">{suffix}</span>
     </span>
   );
 }
@@ -181,7 +181,7 @@ export function SiteHeader({ items }) {
               <>
                 <img
                   src={`${base}logocar.png`}
-                  alt="ACT AUTO — сеть салонов автомобилей с пробегом"
+                  alt="ACT АВТО — сеть салонов автомобилей с пробегом"
                   className="block h-9 w-auto shrink-0 object-contain object-left sm:h-10 md:h-11"
                   width={136}
                   height={64}
