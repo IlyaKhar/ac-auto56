@@ -17,7 +17,7 @@ function IconImage({ src, alt }) {
     <img
       src={src}
       alt={alt}
-      className="size-[4.5rem] scale-[1.65] object-contain md:size-[5rem] md:scale-[1.7]"
+      className="size-[4.5rem] scale-[1.42] object-contain md:size-[5rem] md:scale-[1.48]"
       loading="lazy"
       decoding="async"
     />
