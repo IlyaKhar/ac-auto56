@@ -4,7 +4,7 @@ const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
 function IconCircle({ children }) {
   return (
     <div
-      className="mx-auto flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full bg-gradient-to-br from-[#e02020] via-[#c41230] to-[#5c0d0d] p-2 shadow-md md:h-[5rem] md:w-[5rem] md:p-2.5"
+      className="mx-auto flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full bg-gradient-to-br from-[#e02020] via-[#c41230] to-[#5c0d0d] p-1.5 shadow-md md:h-[5rem] md:w-[5rem] md:p-2"
       aria-hidden
     >
       {children}
@@ -17,7 +17,7 @@ function IconImage({ src, alt }) {
     <img
       src={src}
       alt={alt}
-      className="size-[3.15rem] object-contain md:size-[3.5rem]"
+      className="size-[3.35rem] object-contain md:size-[3.75rem]"
       loading="lazy"
       decoding="async"
     />
