@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 import { fetchSalonLocations } from "../api/publicApi.js";
+import {
+  AvtokreditFaqSection,
+  AvtokreditGuaranteesSection,
+  AvtokreditInstallmentSection,
+  AvtokreditPaymentHelpSection,
+  AvtokreditPaymentProcessSection,
+} from "../components/AvtokreditExtraSections.jsx";
 import { AvtokreditLeadFormSection } from "../components/AvtokreditLeadFormSection.jsx";
 import { AvtokreditStagesSection } from "../components/AvtokreditStagesSection.jsx";
 import { OurServicesSection } from "../components/OurServicesSection.jsx";
@@ -38,7 +45,7 @@ export default function AvtokreditovaniePage() {
 
   return (
     <>
-      <div className="w-full bg-neutral-950">
+      <div id="avtokredit-hero" className="w-full bg-neutral-950">
         <section
           className="relative flex min-h-[calc(100svh-8rem)] w-full flex-col items-center justify-center px-4 py-16 md:min-h-[calc(100svh-6rem)] md:py-20"
           aria-labelledby="avtokredit-hero-title"
@@ -82,7 +89,12 @@ export default function AvtokreditovaniePage() {
         </section>
       </div>
 
-      <PartnerBanksSection title='Партнёры «ACT АВТО» в автокредитовании' />
+      <PartnerBanksSection title="Способы оплаты" sectionId="avtokredit-payment-methods" />
+      <AvtokreditPaymentProcessSection />
+      <AvtokreditInstallmentSection />
+      <AvtokreditFaqSection />
+      <AvtokreditGuaranteesSection />
+      <AvtokreditPaymentHelpSection telHref={tel} />
       <AvtokreditStagesSection />
       <AvtokreditLeadFormSection />
       <OurServicesSection />

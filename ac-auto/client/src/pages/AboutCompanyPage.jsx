@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { ActAutoSingleAddressSection } from "../components/ActAutoSingleAddressSection.jsx";
 import { AboutCompanyGallerySlider } from "../components/AboutCompanyGallerySlider.jsx";
+import { AboutDealStagesSection } from "../components/AboutDealStagesSection.jsx";
+import { AboutValuesSection } from "../components/AboutValuesSection.jsx";
 import { fetchAboutGallery } from "../api/publicApi.js";
 import { openLeadCaptureModal } from "../utils/leadModalEvents.js";
 
@@ -191,7 +193,10 @@ export default function AboutCompanyPage() {
 
   return (
     <>
-      <div className="relative flex min-h-[calc(100svh-4rem)] w-full flex-col items-center justify-center bg-black px-4 py-20 md:min-h-[calc(100svh-3rem)]">
+      <div
+        id="about-hero"
+        className="relative flex min-h-[calc(100svh-4rem)] w-full flex-col items-center justify-center bg-black px-4 py-20 md:min-h-[calc(100svh-3rem)]"
+      >
         <h1 className="max-w-xl text-center text-xl font-bold uppercase leading-snug tracking-wide text-white sm:text-2xl md:text-3xl md:leading-tight">
           Сеть автосалонов
           <br />
@@ -201,7 +206,9 @@ export default function AboutCompanyPage() {
         <ScrollChevron />
       </div>
       <AboutIntro />
+      <AboutValuesSection />
       <AboutCompanyGallerySlider imageUrls={galleryUrls} />
+      <AboutDealStagesSection />
       <AboutWhy />
       <ActAutoSingleAddressSection />
     </>

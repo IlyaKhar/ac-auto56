@@ -43,7 +43,7 @@ const INSURANCE_SLIDES = [
 /**
  * Слайдер логотипов партнёров (банки, страховые — одна вёрстка).
  */
-function PartnersLogoSlider({ slides, title }) {
+function PartnersLogoSlider({ slides, title, sectionId }) {
   const slideCount = slides.length;
   const [active, setActive] = useState(0);
   const [broken, setBroken] = useState(() => ({}));
@@ -66,7 +66,7 @@ function PartnersLogoSlider({ slides, title }) {
   );
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 lg:py-20" aria-labelledby={regionId}>
+    <section id={sectionId} className="w-full bg-white py-12 md:py-16 lg:py-20" aria-labelledby={regionId}>
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <h2
           id={regionId}
@@ -157,8 +157,8 @@ function PartnersLogoSlider({ slides, title }) {
  * Блок «Банки-партнёры»: как на главной / кредите.
  * @param {string} [props.title]
  */
-export function PartnerBanksSection({ title = "Банки партнёров" }) {
-  return <PartnersLogoSlider slides={BANK_SLIDES} title={title} />;
+export function PartnerBanksSection({ title = "Банки партнёров", sectionId }) {
+  return <PartnersLogoSlider slides={BANK_SLIDES} title={title} sectionId={sectionId} />;
 }
 
 /** Партнёры по страхованию — те же стрелки/сетка, файлы в public/partner-insurance/01.jpg … 04.jpg */

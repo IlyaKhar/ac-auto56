@@ -1,6 +1,8 @@
 import { ActAutoSingleAddressSection } from "../components/ActAutoSingleAddressSection.jsx";
 import { OurServicesSection } from "../components/OurServicesSection.jsx";
+import { RostoshBenefitsSection } from "../components/RostoshBenefitsSection.jsx";
 import { RostoshFindUsSection } from "../components/RostoshFindUsSection.jsx";
+import { RostoshHowWeWorkSection } from "../components/RostoshHowWeWorkSection.jsx";
 import { RostoshServicesSection } from "../components/RostoshServicesSection.jsx";
 
 const base = (import.meta.env.BASE_URL || "/").replace(/\/?$/, "/");
@@ -23,7 +25,7 @@ export default function AvtoservisPage() {
 
   return (
     <>
-      <div className="w-full bg-neutral-950">
+      <div id="avtoservis-hero" className="w-full bg-neutral-950">
         <section
           className="relative flex min-h-[calc(100svh-8rem)] w-full flex-col items-center justify-center px-4 py-16 md:min-h-[calc(100svh-6rem)] md:py-20"
           aria-labelledby="avtoservis-hero-title"
@@ -56,7 +58,29 @@ export default function AvtoservisPage() {
         </section>
       </div>
       <RostoshServicesSection />
+      <RostoshBenefitsSection />
+      <RostoshHowWeWorkSection />
       <RostoshFindUsSection />
+      <section
+        id="avtoservis-consult"
+        className="bg-neutral-950 px-4 py-12 text-center text-white md:py-16"
+        aria-labelledby="avtoservis-consult-title"
+      >
+        <div className="mx-auto max-w-2xl">
+          <h2 id="avtoservis-consult-title" className="text-lg font-bold uppercase tracking-[0.08em] md:text-xl">
+            Нужна консультация?
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-white/90 md:text-base">
+            Позвоните или оставьте заявку — подскажем по стоимости и запишем на удобное время.
+          </p>
+          <a
+            href={tel}
+            className="mt-8 inline-flex min-h-[48px] items-center justify-center rounded-sm bg-ac-vykup-lime px-8 py-4 text-xs font-bold uppercase tracking-[0.08em] text-neutral-900 shadow-lg transition hover:brightness-105"
+          >
+            Позвонить
+          </a>
+        </div>
+      </section>
       <OurServicesSection />
       <ActAutoSingleAddressSection />
     </>

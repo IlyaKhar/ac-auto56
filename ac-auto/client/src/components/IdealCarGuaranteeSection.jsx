@@ -77,7 +77,7 @@ export function IdealCarGuaranteeSection({ asStandalonePage = false }) {
   const HeadingTag = asStandalonePage ? "h1" : "h2";
 
   return (
-    <section className="bg-white py-12 md:py-16 lg:py-20">
+    <section id="home-stats" className="bg-white py-12 md:py-16 lg:py-20" aria-labelledby="home-stats-title">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {asStandalonePage ? (
           <>
@@ -87,12 +87,12 @@ export function IdealCarGuaranteeSection({ asStandalonePage = false }) {
             >
               ← На главную
             </Link>
-            <HeadingTag className={`${titleClassName} mt-8 md:mt-10`}>
+            <HeadingTag id="home-stats-title" className={`${titleClassName} mt-8 md:mt-10`}>
               Ваш идеальный автомобиль с гарантией
             </HeadingTag>
           </>
         ) : (
-          <HeadingTag className={titleClassName}>
+          <HeadingTag id="home-stats-title" className={titleClassName}>
             Ваш идеальный автомобиль с гарантией
           </HeadingTag>
         )}

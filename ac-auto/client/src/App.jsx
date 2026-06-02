@@ -12,6 +12,7 @@ import AvtoservisPage from "./pages/AvtoservisPage.jsx";
 import MolyarnyjCehPage from "./pages/MolyarnyjCehPage.jsx";
 import RostoshCarwashPage from "./pages/RostoshCarwashPage.jsx";
 import AboutCompanyPage from "./pages/AboutCompanyPage.jsx";
+import KontaktyPage from "./pages/KontaktyPage.jsx";
 import KomissionnayaProdazhaPage from "./pages/KomissionnayaProdazhaPage.jsx";
 import AvtokreditovaniePage from "./pages/AvtokreditovaniePage.jsx";
 import AvtostrakhovaniePage from "./pages/AvtostrakhovaniePage.jsx";
@@ -40,87 +41,92 @@ import StaffLayout from "./staff/StaffLayout.jsx";
 import StaffLoginPage from "./staff/StaffLoginPage.jsx";
 import StaffApplicationsPage from "./staff/StaffApplicationsPage.jsx";
 import StaffApplicationDetail from "./staff/StaffApplicationDetail.jsx";
+import { ScrollToTopButton } from "./components/ScrollToTopButton.jsx";
 
 /** Публичный сайт + админка + панель staff (заявки). */
 export default function App() {
   return (
-    <Routes>
-      <Route path="/staff/login" element={<StaffLoginPage />} />
-      <Route
-        path="/staff"
-        element={
-          <RequireStaff>
-            <StaffLayout />
-          </RequireStaff>
-        }
-      >
-        <Route index element={<Navigate to="applications" replace />} />
-        <Route path="applications" element={<StaffApplicationsPage />} />
-        <Route path="applications/:id" element={<StaffApplicationDetail />} />
-        <Route path="*" element={<Navigate to="/staff/applications" replace />} />
-      </Route>
+    <>
+      <Routes>
+        <Route path="/staff/login" element={<StaffLoginPage />} />
+        <Route
+          path="/staff"
+          element={
+            <RequireStaff>
+              <StaffLayout />
+            </RequireStaff>
+          }
+        >
+          <Route index element={<Navigate to="applications" replace />} />
+          <Route path="applications" element={<StaffApplicationsPage />} />
+          <Route path="applications/:id" element={<StaffApplicationDetail />} />
+          <Route path="*" element={<Navigate to="/staff/applications" replace />} />
+        </Route>
 
-      <Route path="/admin/login" element={<AdminLoginPage />} />
-      <Route
-        path="/admin"
-        element={
-          <RequireAdmin>
-            <AdminLayout />
-          </RequireAdmin>
-        }
-      >
-        <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<AdminDashboard />} />
-        <Route path="categories" element={<AdminCategories />} />
-        <Route path="services" element={<AdminServices />} />
-        <Route path="vehicles" element={<AdminVehicles />} />
-        <Route path="salon-locations" element={<AdminSalonLocations />} />
-        <Route path="about-gallery" element={<AdminAboutGallery />} />
-        <Route path="home-media" element={<AdminHomeMedia />} />
-        <Route path="pages" element={<AdminPagesList />} />
-        <Route path="pages/:pageId" element={<AdminPageEditor />} />
-        <Route path="users" element={<AdminUsers />} />
-        <Route path="menu" element={<AdminMenu />} />
-        <Route path="footer" element={<AdminFooter />} />
-        <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
-      </Route>
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route
+          path="/admin"
+          element={
+            <RequireAdmin>
+              <AdminLayout />
+            </RequireAdmin>
+          }
+        >
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="categories" element={<AdminCategories />} />
+          <Route path="services" element={<AdminServices />} />
+          <Route path="vehicles" element={<AdminVehicles />} />
+          <Route path="salon-locations" element={<AdminSalonLocations />} />
+          <Route path="about-gallery" element={<AdminAboutGallery />} />
+          <Route path="home-media" element={<AdminHomeMedia />} />
+          <Route path="pages" element={<AdminPagesList />} />
+          <Route path="pages/:pageId" element={<AdminPageEditor />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="menu" element={<AdminMenu />} />
+          <Route path="footer" element={<AdminFooter />} />
+          <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
+        </Route>
 
-      <Route element={<PublicLayout />}>
-        {/* Главная = та же витрина каталога, что и /katalog (акцент на авто). Услуги — /uslugi */}
-        <Route path="/" element={<KatalogPage />} />
-        <Route path="/katalog" element={<KatalogPage />} />
-        <Route path="/avtomobili" element={<AvtomobiliPage />} />
-        <Route path="/izbrannoe" element={<FavoritesPage />} />
-        <Route path="/page/idealnyy-avtomobil-s-garantiey" element={<IdealCarGuaranteePage />} />
-        <Route path="/page/vykup" element={<VykupPage />} />
-        <Route path="/page/trade-in" element={<TradeInPage />} />
-        <Route path="/komissionnaya-prodazha" element={<KomissionnayaProdazhaPage />} />
-        <Route path="/page/komissionnaya-prodazha" element={<Navigate to="/komissionnaya-prodazha" replace />} />
-        <Route path="/avtokreditovanie" element={<AvtokreditovaniePage />} />
-        <Route path="/page/avtokreditovanie" element={<Navigate to="/avtokreditovanie" replace />} />
-        <Route path="/avtostrakhovanie" element={<AvtostrakhovaniePage />} />
-        <Route path="/page/avtostrakhovanie" element={<Navigate to="/avtostrakhovanie" replace />} />
-        <Route path="/page/avtoservis" element={<AvtoservisPage />} />
-        <Route path="/avtoservis" element={<Navigate to="/page/avtoservis" replace />} />
-        <Route path="/page/molyarnyj-ceh" element={<MolyarnyjCehPage />} />
-        <Route path="/molyarnyj-ceh" element={<Navigate to="/page/molyarnyj-ceh" replace />} />
-        <Route path="/rostosh_carwash" element={<RostoshCarwashPage />} />
-        <Route path="/service-order" element={<ServiceOrderPage />} />
-        <Route path="/page/avtomoyka" element={<Navigate to="/rostosh_carwash" replace />} />
-        <Route path="/o-kompanii" element={<AboutCompanyPage />} />
-        <Route path="/page/o-kompanii" element={<Navigate to="/o-kompanii" replace />} />
-        <Route path="/uslugi" element={<HomePage />} />
-        <Route path="/services/:id" element={<ServicePage />} />
-        {STATIC_SERVICE_SLUGS.map((slug) => (
-          <Route
-            key={slug}
-            path={`/page/${slug}`}
-            element={<StaticServiceLandingPage slug={slug} />}
-          />
-        ))}
-        <Route path="/page/:slug" element={<CmsPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-    </Routes>
+        <Route element={<PublicLayout />}>
+          {/* Главная = та же витрина каталога, что и /katalog (акцент на авто). Услуги — /uslugi */}
+          <Route path="/" element={<KatalogPage />} />
+          <Route path="/katalog" element={<KatalogPage />} />
+          <Route path="/avtomobili" element={<AvtomobiliPage />} />
+          <Route path="/izbrannoe" element={<FavoritesPage />} />
+          <Route path="/page/idealnyy-avtomobil-s-garantiey" element={<IdealCarGuaranteePage />} />
+          <Route path="/page/vykup" element={<VykupPage />} />
+          <Route path="/page/trade-in" element={<TradeInPage />} />
+          <Route path="/komissionnaya-prodazha" element={<KomissionnayaProdazhaPage />} />
+          <Route path="/page/komissionnaya-prodazha" element={<Navigate to="/komissionnaya-prodazha" replace />} />
+          <Route path="/avtokreditovanie" element={<AvtokreditovaniePage />} />
+          <Route path="/page/avtokreditovanie" element={<Navigate to="/avtokreditovanie" replace />} />
+          <Route path="/avtostrakhovanie" element={<AvtostrakhovaniePage />} />
+          <Route path="/page/avtostrakhovanie" element={<Navigate to="/avtostrakhovanie" replace />} />
+          <Route path="/page/avtoservis" element={<AvtoservisPage />} />
+          <Route path="/avtoservis" element={<Navigate to="/page/avtoservis" replace />} />
+          <Route path="/page/molyarnyj-ceh" element={<MolyarnyjCehPage />} />
+          <Route path="/molyarnyj-ceh" element={<Navigate to="/page/molyarnyj-ceh" replace />} />
+          <Route path="/rostosh_carwash" element={<RostoshCarwashPage />} />
+          <Route path="/service-order" element={<ServiceOrderPage />} />
+          <Route path="/page/avtomoyka" element={<Navigate to="/rostosh_carwash" replace />} />
+          <Route path="/o-kompanii" element={<AboutCompanyPage />} />
+          <Route path="/page/o-kompanii" element={<Navigate to="/o-kompanii" replace />} />
+          <Route path="/page/kontakty" element={<KontaktyPage />} />
+          <Route path="/uslugi" element={<HomePage />} />
+          <Route path="/services/:id" element={<ServicePage />} />
+          {STATIC_SERVICE_SLUGS.map((slug) => (
+            <Route
+              key={slug}
+              path={`/page/${slug}`}
+              element={<StaticServiceLandingPage slug={slug} />}
+            />
+          ))}
+          <Route path="/page/:slug" element={<CmsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+      <ScrollToTopButton />
+    </>
   );
 }

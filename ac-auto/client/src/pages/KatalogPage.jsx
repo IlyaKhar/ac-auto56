@@ -7,6 +7,7 @@ import { KatalogHeroSection } from "../components/KatalogHeroSection.jsx";
 import { CarInspectionSection } from "../components/CarInspectionSection.jsx";
 import { IdealCarGuaranteeSection } from "../components/IdealCarGuaranteeSection.jsx";
 import { HappyOwnersSection } from "../components/HappyOwnersSection.jsx";
+import { HomeNotFoundSection } from "../components/HomeNotFoundSection.jsx";
 import { PartnerBanksSection } from "../components/PartnerBanksSection.jsx";
 import { ReviewsSection } from "../components/ReviewsSection.jsx";
 import { SalonLocationsSection } from "../components/SalonLocationsSection.jsx";
@@ -81,6 +82,7 @@ export default function KatalogPage() {
       <HappyOwnersSection adminImages={homeMedia?.happy_owners ?? []} />
       <PartnerBanksSection />
       <ReviewsSection />
+      <HomeNotFoundSection />
       <SalonLocationsSection data={salonLocationsData} />
       <CarDetailModal
         open={Boolean(detailVehicle)}

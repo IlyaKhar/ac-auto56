@@ -36,7 +36,11 @@ export function FloatingContactWidget() {
   }, [open, close]);
 
   return (
-    <div ref={rootRef} className="pointer-events-none fixed bottom-5 right-4 z-[60] flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <div
+      ref={rootRef}
+      data-floating-contact
+      className="pointer-events-none fixed bottom-5 right-4 z-[60] flex flex-col items-end gap-3 sm:bottom-6 sm:right-6"
+    >
       {open && (
         <div
           id={`${id}-panel`}
