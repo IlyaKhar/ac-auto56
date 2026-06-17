@@ -76,7 +76,7 @@ export default function KatalogPage() {
         onToggleFavorite={toggleFavorite}
         showGoToCatalogButton
       />
-      <OurServicesSection adminImages={homeMedia?.our_services ?? []} />
+      <OurServicesSection />
       <IdealCarGuaranteeSection />
       <CarInspectionSection adminImages={homeMedia?.car_inspection ?? []} />
       <HappyOwnersSection adminImages={homeMedia?.happy_owners ?? []} />

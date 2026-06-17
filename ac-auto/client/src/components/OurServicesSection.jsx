@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchVehicles } from "../api/publicApi.js";
+import { fetchHomeMedia, fetchVehicles } from "../api/publicApi.js";
 import { OUR_SERVICES_CARDS } from "../data/staticServices.js";
 
 function ServiceCard({ title, subtitle, href, image, backupImage, fallbackClass }) {
@@ -61,14 +61,33 @@ function ServiceCard({ title, subtitle, href, image, backupImage, fallbackClass 
 
 /**
  * Блок «НАШИ УСЛУГИ»; omitSlugs — скрыть карточки (напр. avtoservis на странице автосервиса).
+ * Фото карточек — из админки (home-media); без API остаются статика из staticServices.
  */
-export function OurServicesSection({ omitSlugs = [], adminImages = [] }) {
+export function OurServicesSection({ omitSlugs = [] }) {
   const skip = new Set(omitSlugs);
-  const cards = OUR_SERVICES_CARDS.filter((c) => !skip.has(c.slug)).map((c, idx) => {
-    const custom = typeof adminImages[idx] === "string" ? adminImages[idx].trim() : "";
-    return { ...c, image: custom };
-  });
+  const [ourServices, setOurServices] = useState([]);
   const [vehiclePhotos, setVehiclePhotos] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchHomeMedia()
+      .then((res) => {
+        if (!cancelled) {
+          setOurServices(Array.isArray(res?.our_services) ? res.our_services : []);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setOurServices([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const cards = OUR_SERVICES_CARDS.filter((c) => !skip.has(c.slug)).map((c, idx) => {
+    const custom = typeof ourServices[idx] === "string" ? ourServices[idx].trim() : "";
+    return { ...c, image: custom || c.image };
+  });
 
   useEffect(() => {
     let cancelled = false;
